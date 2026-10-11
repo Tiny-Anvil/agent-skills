@@ -49,7 +49,7 @@ Rules:
   delivery; `security-events: write` only for CodeQL; `id-token: write` only where OIDC login happens.
 - **Never** `pull_request_target`, `write-all`, secrets in `run:` lines, or `${{ github.event.* }}` expanded inside a
   shell script (pass it through `env:` and quote it).
-- Pin actions to a major (`actions/checkout@v7`, `actions/setup-dotnet@v6`, `actions/setup-node@v5`,
+- Pin actions to a major (`actions/checkout@v7`, `actions/setup-dotnet@v6`, `actions/setup-node@v7`,
   `pnpm/action-setup@v4`); Dependabot's `github-actions` ecosystem keeps them current.
 - **Private NuGet feed:** keep the source key in `nuget.config`; in CI, credit it with
   `dotnet nuget update source <key> --username ... --password "$TOKEN" --store-password-in-clear-text` from a repo
