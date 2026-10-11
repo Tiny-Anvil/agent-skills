@@ -56,7 +56,7 @@ jobs:
           VERSION: ${{ steps.v.outputs.version }}
           URL: ${{ vars.APP_URL }}
         run: |
-          for i in $(seq 1 30); do
+          for _ in $(seq 1 30); do
             served="$(curl -fsS "$URL/api/v1/version" 2>/dev/null | sed -E 's/.*"version":"?([^",}]*).*/\1/')" || true
             [ "$served" = "$VERSION" ] && { echo "serving $VERSION"; exit 0; }
             sleep 20

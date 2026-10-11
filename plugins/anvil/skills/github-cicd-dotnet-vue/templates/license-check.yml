@@ -34,9 +34,9 @@ jobs:
       - name: NuGet licences
         run: |
           dotnet tool install --global nuget-license
-          dotnet restore src/apps/api/<App>.Api.csproj
+          dotnet restore "src/apps/api/<App>.Api.csproj"
           set +e
-          nuget-license -i src/apps/api/<App>.Api.csproj -a .github/allowed-licenses.json -o Table
+          nuget-license -i "src/apps/api/<App>.Api.csproj" -a .github/allowed-licenses.json -o Table
           rc=$?
           [ "$ENFORCE" = "true" ] && exit $rc || exit 0
 
@@ -44,6 +44,7 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm licenses list --prod --json > npm-licenses.json
+          # shellcheck disable=SC2016 # the node script is single-quoted on purpose
           node -e '
             const allowed = new Set(require("./.github/allowed-licenses.json"));
             const byLicence = require("./npm-licenses.json");

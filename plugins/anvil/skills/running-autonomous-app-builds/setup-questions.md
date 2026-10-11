@@ -41,6 +41,9 @@ Loop, as a follow-up or a fifth question:
     (`/api` → API, `/` → SPA), two images and tags to keep compatible, two deployments per environment, and
     release tags per component (`<component>/vX.Y.Z`).
   Record the choice in RULES.md; it decides the Dockerfile(s), the image workflow and the deploy files.
+- **CI workflows:** **Shared** (thin callers of the reusable workflows in Tiny-Anvil/workflows, pinned `@v1`; one fix
+  reaches every app) · **Standalone** (full workflows copied into the repo; no outside dependency). See
+  github-cicd-dotnet-vue → Shared or standalone.
 - **Image platforms:** `linux/amd64`, `linux/arm64` (e.g. Raspberry Pi or Graviton nodes), or both.
 - **Registry:** GHCR (default, `GITHUB_TOKEN`) or another (ACR, Docker Hub, ECR): name and how CI logs in.
 - **New repo:** name, owner (user or org), visibility (private by default).

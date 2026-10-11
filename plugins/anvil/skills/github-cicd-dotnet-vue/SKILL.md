@@ -15,8 +15,20 @@ Two stages here, a third in its own skill:
 | **Delivery** | GitHub **release** (prerelease or release) | one immutable, versioned image in the registry | this skill |
 | **Deployment** | a GitOps PR, a deploy job, or the owner's own mechanism | the environment runs that image, verified on the environment | deploying-container-images |
 
-Templates in `templates/`: `build-dotnet.yml`, `build-frontend.yml`, `security.yml`, `license-check.yml`,
-`dependabot.yml`, `build-image.yml`, `Dockerfile`. Replace `<App>` / `<Org>` placeholders.
+## Shared or standalone (chosen at setup)
+
+| Mode | The app repo gets | Pick it when |
+|---|---|---|
+| **Shared** (default) | thin callers (`templates/shared/`) of the reusable workflows in [Tiny-Anvil/workflows](https://github.com/Tiny-Anvil/workflows), pinned `@v1` | several apps should get the same fix at once |
+| **Standalone** | the full workflows copied in (`templates/*.yml`) | the app must not depend on another repo, or needs heavy changes to a gate |
+
+Both run the same gates. Shared callers pin a major tag (`@v1`) or a commit SHA, never `@main`, grant each called
+workflow exactly the permissions its header lists, and pass secrets explicitly (no `secrets: inherit`).
+
+Templates: `templates/shared/{ci,security,image}.yml` (shared mode); `templates/build-dotnet.yml`,
+`build-frontend.yml`, `security.yml`, `license-check.yml`, `build-image.yml` (standalone); in both modes
+`templates/dependabot.yml`, `templates/Dockerfile` and `templates/dockerignore` (copy it as `.dockerignore`).
+Replace `<App>` / `<Org>` placeholders.
 
 ## Gates (every project, from the walking skeleton on)
 
@@ -48,13 +60,15 @@ Rules:
 
 ## Delivery
 
-`templates/build-image.yml`:
+`templates/build-image.yml` (standalone) or `templates/shared/image.yml` (shared):
 - Trigger `release: [released, prereleased]` + `workflow_dispatch`.
 - Tag `vX.Y.Z[-alpha.N]` for a single-image app; `<component>/vX.Y.Z` when one repo ships several images.
 - Prerelease → `:<version>` and `:dev`; release → `:<version>` and `:latest`. **Deployments reference
   `:<version>`**, never `:dev`/`:latest` (a moving tag cannot be rolled back and does not redeploy).
 - `--build-arg VERSION=<version>` → the Dockerfile bakes it into the API (`APP_VERSION`) and the SPA
   (`VITE_APP_VERSION`), so the deployed build can be identified.
+- **`.dockerignore` must exclude `**/bin` and `**/obj`** (not just `bin/`): otherwise a local restore's
+  `project.assets.json` is copied over the image's own restore and the cross-platform publish fails (NETSDK1047).
 - **Platforms** from setup (`linux/amd64`, `linux/arm64` or both). The `templates/Dockerfile` build stages run on
   `$BUILDPLATFORM` and cross-compile with `-a $TARGETARCH`, so QEMU only emulates the small final stage.
 - **Registry:** GHCR with `GITHUB_TOKEN` (`packages: write`) by default. Another registry (ACR, Docker Hub, ECR):

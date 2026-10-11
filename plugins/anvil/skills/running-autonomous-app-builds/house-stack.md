@@ -187,7 +187,7 @@ Tailwind, Playwright, GitHub Actions and one container image. They are a startin
 
 ## CI (GitHub Actions)
 
-See github-cicd-dotnet-vue for the workflows. Per workflow, least-privilege `permissions`, no `pull_request_target`,
+See github-cicd-dotnet-vue for the workflows: shared (callers of Tiny-Anvil/workflows `@v1`) or standalone copies. Per workflow, least-privilege `permissions`, no `pull_request_target`,
 no `write-all`. Gates: `build-dotnet.yml`, `build-frontend.yml`, `security.yml` (also weekly), `license-check.yml`,
 `dependabot.yml`. Delivery: `build-image.yml` on a GitHub release.
 

@@ -25,17 +25,17 @@ jobs:
           global-json-file: global.json
 
       - name: Restore
-        run: dotnet restore src/apps/api/<App>.Api.csproj && dotnet restore src/tests/<App>.Api.Tests/<App>.Api.Tests.csproj
+        run: dotnet restore "src/apps/api/<App>.Api.csproj" && dotnet restore "src/tests/<App>.Api.Tests/<App>.Api.Tests.csproj"
 
       - name: Build (Release)
-        run: dotnet build --no-restore -c Release src/apps/api/<App>.Api.csproj
+        run: dotnet build --no-restore -c Release "src/apps/api/<App>.Api.csproj"
 
       # The dev bypass authenticates every request as system:admin and is compiled out of Release via the
       # DEV_AUTH_BYPASS constant (Directory.Build.targets). Prove it on the artifact, not the build config:
       # type names live verbatim in the metadata string table, so a grep over the assembly is enough.
       - name: Assert dev auth bypass is absent from the Release assembly
         run: |
-          ASM=src/apps/api/bin/Release/net10.0/<App>.Api.dll
+          ASM="src/apps/api/bin/Release/net10.0/<App>.Api.dll"
           test -f "$ASM" || { echo "::error::$ASM not found"; exit 1; }
           if grep -aq 'DevBypassAuthenticationHandler' "$ASM"; then
             echo "::error::Dev auth bypass is present in the Release assembly. Refusing to pass."
@@ -46,7 +46,7 @@ jobs:
       # Debug, not Release: the integration factory drives the API through the dev bypass, which only exists in
       # builds defining DEV_AUTH_BYPASS. Testcontainers uses the runner's Docker daemon.
       - name: Test
-        run: dotnet test src/tests/<App>.Api.Tests/<App>.Api.Tests.csproj --logger "console;verbosity=normal" --logger "trx;LogFileName=api.trx"
+        run: dotnet test "src/tests/<App>.Api.Tests/<App>.Api.Tests.csproj" --logger "console;verbosity=normal" --logger "trx;LogFileName=api.trx"
 
       - name: Upload test results
         if: always()

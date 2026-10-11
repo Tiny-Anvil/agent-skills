@@ -37,7 +37,7 @@ running-autonomous-app-builds
 | `writing-app-briefs` | Turning an idea into the acceptance contract another session builds from, with measurable tests | `SKILL.md`, `brief-template.md` |
 | `iterating-with-verified-increments` | Building or polishing anything whose correctness must be shown by running it; before calling it done | `SKILL.md`, `review-checklist.md`, `RUN.md`, `INCREMENT.md`, `QA.md` |
 | `dotnet-vue-test-harness` | Tests through the real stack: Testcontainers, real-JWT scope tests, guard tests, Vitest, Playwright flows and captures, load, preview copies | `SKILL.md`, `templates/playwright.config.ts`, `capture.spec.ts`, `e2e.sh`, `load.mjs`, `k6-smoke.js`, `preview.sh`, `preview.compose.yml` |
-| `github-cicd-dotnet-vue` | PR gates, security and licence checks, Dependabot, and the release-triggered image build | `SKILL.md`, `templates/build-dotnet.yml`, `build-frontend.yml`, `security.yml`, `license-check.yml`, `dependabot.yml`, `build-image.yml`, `Dockerfile` |
+| `github-cicd-dotnet-vue` | PR gates, security and licence checks, Dependabot, and the release-triggered image build | `SKILL.md`, `templates/shared/` (callers of [Tiny-Anvil/workflows](https://github.com/Tiny-Anvil/workflows)), standalone `build-dotnet.yml`, `build-frontend.yml`, `security.yml`, `license-check.yml`, `build-image.yml`, plus `dependabot.yml`, `Dockerfile`, `dockerignore` |
 | `deploying-container-images` | Getting an image version onto an environment (GitOps PR, Azure Container Apps, other) and proving it runs there | `SKILL.md`, `templates/gitops/bump.sh`, `gitops/base-deployment.yaml`, `gitops/overlay-kustomization.yaml`, `azure-container-apps/deploy.yml`, `verify-deploy.sh` |
 
 ## The stack it builds

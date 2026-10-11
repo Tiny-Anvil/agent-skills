@@ -1,0 +1,38 @@
+# .github/workflows/ci.yml — PR/push gates through the shared Tiny-Anvil workflows.
+# Inputs and permissions: https://github.com/Tiny-Anvil/workflows#inputs
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  api:
+    uses: Tiny-Anvil/workflows/.github/workflows/dotnet-build.yml@v1
+    with:
+      project: src/apps/api/<Org>.<App>.Api.csproj
+      test-project: src/tests/<Org>.<App>.Api.Tests/<Org>.<App>.Api.Tests.csproj
+      forbidden-type: DevBypassAuthenticationHandler      # drop when the app has no dev auth bypass
+    # Private NuGet feed:
+    #   nuget-source: <source key in nuget.config>
+    # secrets:
+    #   nuget-token: ${{ secrets.NUGET_TOKEN }}
+
+  spa:
+    uses: Tiny-Anvil/workflows/.github/workflows/frontend-build.yml@v1
+    with:
+      app-dir: src/apps/app
+      guard-env: VITE_AUTH_BYPASS                          # drop when there is no auth bypass
+      guard-message: VITE_AUTH_BYPASS=true in a production build
+
+  licences:
+    uses: Tiny-Anvil/workflows/.github/workflows/license-check.yml@v1
+    with:
+      dotnet-project: src/apps/api/<Org>.<App>.Api.csproj
+      enforce: false                                       # true after the first report is reviewed

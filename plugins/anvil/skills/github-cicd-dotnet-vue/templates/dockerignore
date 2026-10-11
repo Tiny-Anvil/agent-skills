@@ -1,0 +1,15 @@
+# .dockerignore — keep the build context small and free of local state. The **/ prefix matters: bin/ alone only
+# matches the top level, and a nested obj/ (with a local project.assets.json) breaks a cross-platform restore.
+**/bin
+**/obj
+**/node_modules
+**/dist
+**/dev-dist
+**/TestResults
+**/.env
+**/.env.*
+**/appsettings.json
+**/appsettings.*.json
+!**/appsettings.example.json
+data/
+.git
