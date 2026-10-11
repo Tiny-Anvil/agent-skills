@@ -1,0 +1,53 @@
+# Licence gate: every NuGet and npm dependency against an allow-list.
+# Start with ENFORCE: "false" (report only), review the first report, adjust .github/allowed-licenses.json, then
+# set ENFORCE: "true". Tool flags change between versions: check `nuget-license --help` at setup.
+name: Licences
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  ENFORCE: "false"
+
+jobs:
+  licences:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      # .github/allowed-licenses.json: ["MIT", "Apache-2.0", "BSD-2-Clause", "BSD-3-Clause", "ISC", "0BSD", "MS-PL", ...]
+      - name: NuGet licences
+        run: |
+          dotnet tool install --global nuget-license
+          dotnet restore src/apps/api/<App>.Api.csproj
+          set +e
+          nuget-license -i src/apps/api/<App>.Api.csproj -a .github/allowed-licenses.json -o Table
+          rc=$?
+          [ "$ENFORCE" = "true" ] && exit $rc || exit 0
+
+      - name: npm licences (production dependencies)
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm licenses list --prod --json > npm-licenses.json
+          node -e '
+            const allowed = new Set(require("./.github/allowed-licenses.json"));
+            const byLicence = require("./npm-licenses.json");
+            const bad = Object.entries(byLicence).filter(([l]) => !allowed.has(l));
+            for (const [l, pkgs] of bad) console.log(`::warning::${l}: ${pkgs.map(p => p.name).join(", ")}`);
+            if (bad.length && process.env.ENFORCE === "true") process.exit(1);
+          '

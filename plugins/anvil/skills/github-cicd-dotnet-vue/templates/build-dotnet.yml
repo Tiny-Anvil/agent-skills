@@ -1,0 +1,56 @@
+# PR/push gate for the .NET API + tests. With a private NuGet feed, add a step after setup-dotnet that credits the
+# source key from nuget.config with a repo secret (see the skill → Gates → Private NuGet feed).
+name: Build (.NET)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build API + tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore src/apps/api/<App>.Api.csproj && dotnet restore src/tests/<App>.Api.Tests/<App>.Api.Tests.csproj
+
+      - name: Build (Release)
+        run: dotnet build --no-restore -c Release src/apps/api/<App>.Api.csproj
+
+      # The dev bypass authenticates every request as system:admin and is compiled out of Release via the
+      # DEV_AUTH_BYPASS constant (Directory.Build.targets). Prove it on the artifact, not the build config:
+      # type names live verbatim in the metadata string table, so a grep over the assembly is enough.
+      - name: Assert dev auth bypass is absent from the Release assembly
+        run: |
+          ASM=src/apps/api/bin/Release/net10.0/<App>.Api.dll
+          test -f "$ASM" || { echo "::error::$ASM not found"; exit 1; }
+          if grep -aq 'DevBypassAuthenticationHandler' "$ASM"; then
+            echo "::error::Dev auth bypass is present in the Release assembly. Refusing to pass."
+            exit 1
+          fi
+          echo "OK: dev auth bypass is not present in the Release assembly."
+
+      # Debug, not Release: the integration factory drives the API through the dev bypass, which only exists in
+      # builds defining DEV_AUTH_BYPASS. Testcontainers uses the runner's Docker daemon.
+      - name: Test
+        run: dotnet test src/tests/<App>.Api.Tests/<App>.Api.Tests.csproj --logger "console;verbosity=normal" --logger "trx;LogFileName=api.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-test-results
+          path: "**/TestResults/*.trx"

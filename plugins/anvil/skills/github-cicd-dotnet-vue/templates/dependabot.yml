@@ -1,0 +1,34 @@
+# .github/dependabot.yml — weekly updates. Minor/patch grouped per ecosystem (catch-all group last); majors and
+# security updates stay separate PRs so each can be reviewed on its own.
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: "/"            # the root, where Directory.Packages.props lives (Central Package Management)
+    schedule: { interval: weekly }
+    groups:
+      dotnet-minor-patch:
+        update-types: [minor, patch]
+    # Packages from a private feed Dependabot cannot reach:
+    # ignore:
+    #   - dependency-name: "MyCompany.*"
+
+  - package-ecosystem: npm
+    directory: "/"            # the pnpm workspace root
+    schedule: { interval: weekly }
+    groups:
+      vue:
+        patterns: ["vue", "vue-*", "@vue/*", "pinia", "@pinia/*"]
+        update-types: [minor, patch]
+      npm-minor-patch:        # catch-all, last
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: "/"
+    schedule: { interval: weekly }
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule: { interval: weekly }
+    groups:
+      actions:
+        update-types: [minor, patch]
