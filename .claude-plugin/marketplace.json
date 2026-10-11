@@ -1,0 +1,34 @@
+{
+  "name": "tiny-anvil",
+  "description": "Agent skills and plugins from Tiny Anvil.",
+  "owner": {
+    "name": "Tiny Anvil"
+  },
+  "plugins": [
+    {
+      "name": "anvil",
+      "description": "Skills for building whole apps and games autonomously, evidence first: a .NET + Vue web app with CI/CD and deployment, or a Godot game with Blender assets and audio, from one setup round to a verified result.",
+      "version": "0.1.0",
+      "source": "./plugins/anvil",
+      "author": {
+        "name": "Tiny Anvil"
+      },
+      "homepage": "https://github.com/Tiny-Anvil/agent-skills/tree/main/plugins/anvil",
+      "license": "MIT",
+      "keywords": [
+        "skills",
+        "autonomous",
+        "agents",
+        "dotnet",
+        "vue",
+        "github-actions",
+        "gitops",
+        "godot",
+        "blender",
+        "testing",
+        "playwright"
+      ],
+      "category": "development"
+    }
+  ]
+}
