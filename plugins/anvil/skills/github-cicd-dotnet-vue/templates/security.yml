@@ -1,0 +1,84 @@
+# Security gate: vulnerable dependencies (NuGet + npm), CodeQL, Trivy. On PRs, on main and weekly, because new
+# advisories appear for code that has not changed.
+name: Security
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 5 * * 1"   # Mondays 05:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dependencies:
+    name: Vulnerable dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v6
+        with:
+          global-json-file: global.json
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      # `dotnet list package --vulnerable` exits 0 even when it finds something: parse the output.
+      # Every project, test projects included (their transitive packages are otherwise only a build warning).
+      - name: NuGet (incl. transitive)
+        run: |
+          found=0
+          for proj in $(git ls-files '*.csproj'); do
+            dotnet restore "$proj" >/dev/null
+            out="$(dotnet list "$proj" package --vulnerable --include-transitive 2>&1)"
+            echo "$out"
+            if echo "$out" | grep -qE '^\s+>\s'; then
+              echo "::error file=$proj::vulnerable package(s) in $proj"; found=1
+            fi
+          done
+          exit $found
+
+      - name: npm (high and critical)
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm audit --audit-level=high
+
+  codeql:
+    name: CodeQL
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [csharp, javascript-typescript]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: github/codeql-action/init@v4
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+      - uses: github/codeql-action/analyze@v4
+        with:
+          category: "/language:${{ matrix.language }}"
+
+  trivy:
+    name: Trivy (secrets, misconfig, vulnerabilities)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln,secret,misconfig
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"

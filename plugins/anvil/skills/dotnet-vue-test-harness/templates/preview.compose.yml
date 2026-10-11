@@ -1,0 +1,32 @@
+# deploy/preview.compose.yml — used by scripts/preview.sh on top of docker-compose.yml: the normal stack plus a
+# Cloudflare tunnel, with NO ports on the machine. Testers reach the app only through the tunnel; the database and
+# the app stay inside Docker's network. `!reset` needs Docker Compose v2.24 or newer.
+services:
+  db:
+    ports: !reset []
+  app:
+    ports: !reset []
+
+  # Quick tunnel: a random https://<words>.trycloudflare.com address, no Cloudflare account. Public to anyone with
+  # the link and gone when the copy stops. Holds Server-Sent Events back: the SPA must fall back to polling.
+  tunnel-quick:
+    image: cloudflare/cloudflared:2026.3.0
+    profiles: [quick]
+    command: tunnel --no-autoupdate --url http://app:8080
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+
+  # Named tunnel: a fixed hostname (configured in Cloudflare Zero Trust) behind an access policy. The token comes
+  # from PREVIEW_TUNNEL_TOKEN, which scripts/preview.sh reads from a file outside the repo.
+  tunnel-named:
+    image: cloudflare/cloudflared:2026.3.0
+    profiles: [named]
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${PREVIEW_TUNNEL_TOKEN:-}
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped

@@ -1,0 +1,62 @@
+# PR/push gate for the Vue SPA. Same scripts a developer runs locally.
+name: Build (frontend)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Lint, test & build SPA
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/apps/app
+    steps:
+      - uses: actions/checkout@v7
+
+      # Version from the root package.json "packageManager" field: the pnpm the lockfile was written with.
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      # Workspace install from the repo root: the app depends on workspace packages.
+      - name: Install
+        working-directory: .
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test:run
+
+      # `build` is `vue-tsc -b && vite build`, so this type-checks too.
+      - name: Build
+        run: pnpm build
+
+      # Regression guard: vite.config.ts must refuse a production bundle with the auth bypass on.
+      - name: Assert production build refuses VITE_AUTH_BYPASS
+        env:
+          VITE_AUTH_BYPASS: "true"
+        run: |
+          if pnpm exec vite build > bypass-check.log 2>&1; then
+            echo "::error::Production build accepted VITE_AUTH_BYPASS=true. The guard in vite.config.ts is gone."
+            exit 1
+          fi
+          grep -q 'VITE_AUTH_BYPASS=true in a production build' bypass-check.log || {
+            echo "::error::Build failed, but not on the auth-bypass guard. Log:"; cat bypass-check.log; exit 1;
+          }
+          echo "OK: production build refuses VITE_AUTH_BYPASS=true."

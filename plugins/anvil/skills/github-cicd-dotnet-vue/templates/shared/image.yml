@@ -1,0 +1,24 @@
+# .github/workflows/image.yml — versioned image on a GitHub release, through the shared workflow.
+# Prerelease vX.Y.Z-alpha.N -> :<version> + :dev ; release vX.Y.Z -> :<version> + :latest. Deploy :<version>.
+name: Image
+
+on:
+  release:
+    types: [released, prereleased]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Image version tag (e.g. v0.1.0-alpha.1)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write          # GHCR push with GITHUB_TOKEN
+
+jobs:
+  image:
+    uses: Tiny-Anvil/workflows/.github/workflows/container-image.yml@v1
+    with:
+      platforms: linux/amd64,linux/arm64
+      version: ${{ inputs.version }}     # empty on a release: the release tag is used

@@ -1,0 +1,66 @@
+# apps/<app>/base/deployment.yaml — shared by every environment; overlays change only the tag, host and settings.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <app>
+  labels: { app.kubernetes.io/name: <app> }
+spec:
+  replicas: 1
+  strategy: { type: Recreate }        # one replica + migrate-on-startup: never two versions on one schema
+  selector:
+    matchLabels: { app.kubernetes.io/name: <app> }
+  template:
+    metadata:
+      labels: { app.kubernetes.io/name: <app> }
+    spec:
+      # nodeSelector: { kubernetes.io/arch: arm64 }   # when the image is single-arch
+      # imagePullSecrets: [{ name: ghcr-pull }]       # private registry package
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: app
+          image: ghcr.io/<owner>/<repo>:v0.0.0   # the tag is set per overlay
+          ports: [{ name: http, containerPort: 8080 }]
+          envFrom:
+            - configMapRef: { name: <app>-env }
+          env:
+            - name: ConnectionStrings__Postgres
+              valueFrom: { secretKeyRef: { name: <app>-db, key: connectionString } }
+            - name: Database__MigrateOnStartup
+              value: "true"
+          readinessProbe:
+            httpGet: { path: /api/v1/health, port: http }
+            initialDelaySeconds: 10            # covers migrations on start
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /api/v1/health, port: http }
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            requests: { cpu: 50m, memory: 128Mi }
+            limits: { memory: 384Mi }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: [ALL] }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: <app>
+spec:
+  selector: { app.kubernetes.io/name: <app> }
+  ports: [{ name: http, port: 80, targetPort: http }]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: <app>
+spec:
+  rules:
+    - host: <app>.example.com             # replaced per overlay
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: <app>, port: { name: http } } }

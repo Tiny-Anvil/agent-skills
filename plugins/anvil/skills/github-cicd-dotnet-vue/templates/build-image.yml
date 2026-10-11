@@ -1,0 +1,72 @@
+# Delivery: one image (API + SPA in wwwroot) to GHCR.
+# Release tag vX.Y.Z[-alpha.N]. Prerelease -> :<version> + :dev ; release -> :<version> + :latest.
+# Deployments pin :<version> (deploying-container-images); :dev/:latest are conveniences, never deploy targets.
+# PLATFORMS: linux/amd64, linux/arm64, or both (comma-separated). The Dockerfile cross-compiles in its build
+# stages, so QEMU only emulates the final stage.
+name: Build and push image
+
+on:
+  release:
+    types: [released, prereleased]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Image version tag (e.g. v0.1.0-alpha.1)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  PLATFORMS: linux/amd64,linux/arm64
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Event fields go through env, never straight into the script.
+      - name: Determine version and tags
+        id: config
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+          INPUT_TAG: ${{ inputs.tag }}
+          REPO: ${{ github.repository }}
+        run: |
+          IMAGE="ghcr.io/${REPO,,}"
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            VERSION="$INPUT_TAG"; EXTRA=""
+          else
+            VERSION="$RELEASE_TAG"
+            if [ "$RELEASE_PRERELEASE" = "true" ]; then EXTRA=",${IMAGE}:dev"; else EXTRA=",${IMAGE}:latest"; fi
+          fi
+          case "$VERSION" in v[0-9]*) ;; *) echo "::error::Tag '$VERSION' is not vX.Y.Z"; exit 1;; esac
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "tags=${IMAGE}:${VERSION}${EXTRA}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: ${{ env.PLATFORMS }}
+          push: true
+          tags: ${{ steps.config.outputs.tags }}
+          build-args: |
+            VERSION=${{ steps.config.outputs.version }}

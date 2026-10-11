@@ -1,0 +1,64 @@
+# Deploy a released image version to Azure Container Apps with federated OIDC (no stored Azure secret).
+# Prerequisites the OWNER creates (the run only writes the scripts): a user-assigned or app registration identity
+# with a federated credential for this repo + environment, Contributor on the Container App, the Container App
+# pulling from ACR with its managed identity (AcrPull), and the GitHub Environment below with reviewers.
+name: Deploy (Azure Container Apps)
+
+on:
+  release:
+    types: [released]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Image version to deploy (e.g. v1.2.3)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write          # OIDC login only
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Version
+        id: v
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          VERSION="${INPUT_VERSION:-$RELEASE_TAG}"
+          case "$VERSION" in v[0-9]*) ;; *) echo "::error::'$VERSION' is not vX.Y.Z"; exit 1;; esac
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set the image
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+          APP: ${{ vars.CONTAINER_APP_NAME }}
+          RG: ${{ vars.RESOURCE_GROUP }}
+          IMAGE: ${{ vars.IMAGE }}          # e.g. myregistry.azurecr.io/myapp
+        run: az containerapp update -n "$APP" -g "$RG" --image "$IMAGE:$VERSION" --output none
+
+      - name: Verify the served version
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
+          URL: ${{ vars.APP_URL }}
+        run: |
+          for _ in $(seq 1 30); do
+            served="$(curl -fsS "$URL/api/v1/version" 2>/dev/null | sed -E 's/.*"version":"?([^",}]*).*/\1/')" || true
+            [ "$served" = "$VERSION" ] && { echo "serving $VERSION"; exit 0; }
+            sleep 20
+          done
+          echo "::error::$URL serves '${served:-nothing}', expected $VERSION"; exit 1

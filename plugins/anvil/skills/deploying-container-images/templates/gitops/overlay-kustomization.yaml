@@ -1,0 +1,28 @@
+# apps/<app>/<env>/kustomization.yaml — one environment of one app. Later deploys change only images[].newTag
+# (bump.sh). The image name must match the one in the base Deployment.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: <app>-<env>
+
+resources:
+  - ../base
+  - namespace.yaml
+  - sealed-db-credentials.yaml   # or an ExternalSecret / SOPS file — made by the owner, never by the run
+
+images:
+  - name: ghcr.io/<owner>/<repo>
+    newTag: v0.1.0               # immutable version; never :dev or :latest
+
+configMapGenerator:
+  - name: <app>-env
+    literals:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - Serilog__Properties__Environment=<env>
+
+patches:
+  - target: { kind: Ingress, name: <app> }
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: <app>-<env>.example.com
