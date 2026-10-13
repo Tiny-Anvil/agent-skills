@@ -1,3 +1,4 @@
 .denylist
 .DS_Store
 *.bak
+data/
