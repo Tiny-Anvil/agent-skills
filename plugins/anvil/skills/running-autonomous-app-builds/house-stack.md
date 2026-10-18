@@ -79,6 +79,16 @@ Tailwind, Playwright, GitHub Actions and one container image. They are a startin
   Any OIDC provider (Entra ID, Logto, Keycloak, Auth0, Zitadel). `IUserContext` populated by middleware
   (`oid` → `sub` → NameIdentifier). `GET /api/v1/me` + `POST /api/v1/me/bootstrap` provision the user; new users
   are `Pending`; `Authentication:InitialAdmins` breaks the first-admin deadlock.
+- **Which provider, in production:** a **hosted** one, never self-hosted (it is the first thing attacked, must be up
+  around the clock, and takes every app down when it fails). Default: Logto Cloud, Free plan while nothing earns.
+  - One production tenant per product (its own users, sign-in page and admins), a free dev tenant for test.
+  - A custom domain per production tenant from day one (`auth.<product domain>`): the issuer stays stable if the
+    product moves to another plan or provider.
+  - Social sign-in only (Google, Apple); email/password and email codes off, so every login carries the provider's
+    MFA. Apple has 2FA on practically every account; Google usually, not guaranteed: "MFA via the provider", not
+    enforced. Once a product earns, its tenant goes to Pro with MFA and passkeys; users notice nothing.
+  - The app keeps its own accounts (issuer + subject), roles and data, and accepts any OIDC provider by
+    configuration, so switching provider stays a configuration change plus relinking.
 - **No login yet?** Put identity behind one seam (e.g. an `ICurrentMember` resolved from a header set by a picker),
   so a real provider replaces the picker later without touching the features. Document it as a consistency guard,
   not security.
@@ -210,6 +220,12 @@ no `write-all`. Gates: `build-dotnet.yml`, `build-frontend.yml`, `security.yml` 
 Images go to a registry from a GitHub release (github-cicd-dotnet-vue). Getting a version onto an environment is a
 separate step (deploying-container-images): a GitOps PR that bumps the tag, an Azure Container Apps deploy, or the
 owner's own mechanism. Secrets are referenced by name; the owner creates the values.
+
+**Production for real users runs in the cloud, not at home.** A home server (power, disk, internet, the house) is a
+single point of failure without guarantees: fine for test, dev and a family copy, not for customers. Because
+everything is containers + k3s + GitOps, moving prod is one day's work: a small ARM cloud server (a few euros a
+month) with the same cluster setup and GitOps repo, and offsite database backups. Do it when the first external
+users arrive, not before.
 
 ## Git and workflow
 
