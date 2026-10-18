@@ -46,7 +46,8 @@ The defaults live in one file, [`house-stack.md`](../plugins/anvil/skills/runnin
 short:
 
 - **API:** .NET 10 minimal API, one class per endpoint, `TypedResults`, FluentValidation that fails closed,
-  ProblemDetails, scope-based authorization with any OIDC provider (or an identity seam when there is no login yet),
+  ProblemDetails, scope-based authorization with any OIDC provider, hosted in production (or an identity seam when
+  there is no login yet),
   EF Core + Npgsql with snake_case and migrations, security headers, rate limiting, Serilog, OpenAPI + Scalar in
   Development, Server-Sent Events for live updates, .NET Aspire for the local dev loop.
 - **SPA:** Vue 3.5, Vite, TypeScript, Tailwind v4, Pinia + Pinia Colada, vue-router, vue-i18n, zod, PWA, runtime
@@ -54,7 +55,7 @@ short:
 - **Tests:** xUnit + Shouldly + Testcontainers, guard tests for the safety rails, Vitest + msw, Playwright at
   1440×900 and 390×844 against a throwaway copy of the composed stack, axe-core, load numbers.
 - **Delivery:** one container image (SPA in the API's `wwwroot/`) by default, multi-arch, versioned from a GitHub
-  release; deployments pin the version.
+  release; deployments pin the version. Production for real users on a small cloud server, not a home server.
 - **Repo hygiene:** Central Package Management, pnpm workspace, only `appsettings.example.json` committed,
   `docs/configuration.md` for every setting, feature docs per feature, Conventional Commits, no AI attribution.
 
