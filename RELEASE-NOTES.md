@@ -16,3 +16,5 @@ First public version.
 - CI in two modes: **shared** (thin callers of the reusable workflows in Tiny-Anvil/workflows, `@v1`) or
   **standalone** (full copies). A `.dockerignore` template; every workflow template passes actionlint in CI.
 - Steps that name Claude Code tools state their intent first, so other agents that read SKILL.md can follow them.
+- Code names: `<Org>` is an optional prefix the owner gives at setup, never derived from the account email or an
+  employer; without one the app name is the root (`Rummikub.Api`).

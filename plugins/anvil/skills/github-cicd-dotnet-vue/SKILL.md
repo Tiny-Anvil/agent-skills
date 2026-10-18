@@ -28,7 +28,8 @@ workflow exactly the permissions its header lists, and pass secrets explicitly (
 Templates: `templates/shared/{ci,security,image}.yml` (shared mode); `templates/build-dotnet.yml`,
 `build-frontend.yml`, `security.yml`, `license-check.yml`, `build-image.yml` (standalone); in both modes
 `templates/dependabot.yml`, `templates/Dockerfile` and `templates/dockerignore` (copy it as `.dockerignore`).
-Replace `<App>` / `<Org>` placeholders.
+Replace `<App>` / `<Org>` placeholders (`<Org>`: only the prefix the owner gave at setup, else drop it with its dot;
+see running-autonomous-app-builds/house-stack.md → Repo layout).
 
 ## Gates (every project, from the walking skeleton on)
 
