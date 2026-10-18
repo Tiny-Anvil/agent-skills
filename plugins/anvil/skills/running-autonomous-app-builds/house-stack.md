@@ -25,6 +25,10 @@ Tailwind, Playwright, GitHub Actions and one container image. They are a startin
 
 ## Repo layout
 
+**Names.** `<App>` is the app's name (`Rummikub`). `<Org>` is an optional prefix the owner gives at setup
+(setup-questions → New repo); without one, drop it (`Rummikub.Api`, `@rummikub/app`). Never derive a prefix from
+the account email, an employer or another repo's names: personal and work projects must not mix.
+
 ```
 <repo>/
   global.json                     # pins the .NET 10 SDK, rollForward latestPatch

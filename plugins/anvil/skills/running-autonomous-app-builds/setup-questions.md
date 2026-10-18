@@ -46,7 +46,8 @@ Loop, as a follow-up or a fifth question:
   github-cicd-dotnet-vue → Shared or standalone.
 - **Image platforms:** `linux/amd64`, `linux/arm64` (e.g. Raspberry Pi or Graviton nodes), or both.
 - **Registry:** GHCR (default, `GITHUB_TOKEN`) or another (ACR, Docker Hub, ECR): name and how CI logs in.
-- **New repo:** name, owner (user or org), visibility (private by default).
+- **New repo:** name, owner (user or org), visibility (private by default), and the code prefix (`<Org>` in
+  house-stack.md → Repo layout; default none, never taken from the account email).
 - **GitOps hosting:** the GitOps repo (URL or local path), its layout (where this app's base and per-environment
   overlays go; Kustomize or Helm values), the environments (e.g. test + prod), hostnames, how secrets are made
   (Sealed Secrets, SOPS, External Secrets, ...), and who creates the database and its credentials. The run
