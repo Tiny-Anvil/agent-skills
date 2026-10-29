@@ -31,6 +31,11 @@ Names only, never values: <repo secrets/vars, registry, how deploy secrets are m
 Secrets, Key Vault, ...), OIDC variable names>.
 A missing one is a real blocker.
 
+## Listing images
+
+"<answer>". Generation: "<answer>" <provider allowed, cap in images; "code-only" when not allowed>. Proof that may
+appear on images: <only what the owner gave; none by default>.
+
 ## Stop rule
 
 "<answer>". <Concrete: "stop when WALLET.json total_cost_usd >= 50", or "stop at 2026-10-12T08:00 local", or

@@ -26,7 +26,8 @@ running-autonomous-app-builds
                           |  image version to an environment, verified there:         deploying-container-images
                        pause only at the configured review checkpoints and deploy gates
   4. Stop rule:      completion conditions / budget cap / time cap (from RULES.md)
-                     -> finish pass (README, configuration and feature docs, fresh clone) -> final/QA.md -> report
+                     -> finish pass (README, configuration and feature docs, fresh clone,
+                        listing images if RULES.md asks: designing-app-listing-images) -> final/QA.md -> report
 ```
 
 ## The skills
@@ -39,6 +40,7 @@ running-autonomous-app-builds
 | `dotnet-vue-test-harness` | Tests through the real stack: Testcontainers, real-JWT scope tests, guard tests, Vitest, Playwright flows and captures, load, preview copies | `SKILL.md`, `templates/playwright.config.ts`, `capture.spec.ts`, `e2e.sh`, `load.mjs`, `k6-smoke.js`, `preview.sh`, `preview.compose.yml` |
 | `github-cicd-dotnet-vue` | PR gates, security and licence checks, Dependabot, and the release-triggered image build | `SKILL.md`, `templates/shared/` (callers of [Tiny-Anvil/workflows](https://github.com/Tiny-Anvil/workflows)), standalone `build-dotnet.yml`, `build-frontend.yml`, `security.yml`, `license-check.yml`, `build-image.yml`, plus `dependabot.yml`, `Dockerfile`, `dockerignore` |
 | `deploying-container-images` | Getting an image version onto an environment (GitOps PR, Azure Container Apps, other) and proving it runs there | `SKILL.md`, `templates/gitops/bump.sh`, `gitops/base-deployment.yaml`, `gitops/overlay-kustomization.yaml`, `azure-container-apps/deploy.yml`, `verify-deploy.sh` |
+| `designing-app-listing-images` | App Store / Google Play screenshot sets, the link-preview image, PWA install screenshots or a landing hero, on demand (`/anvil:listing-images`) or in the finish pass | `SKILL.md`, `copywriting.md`, `STYLES.md` + `styles/` (18), `assets.md`, `build.md`, `scripts/export.js` + `sizes.json` (the one list of sizes), `gen_image.py`, `chroma_key.py`, `fetch_listing.py` |
 
 ## The stack it builds
 
@@ -71,6 +73,8 @@ not depend on .NET or Vue; the test-harness and CI templates do.
 - Only with a GitHub remote: the **`gh` CLI**, authenticated with repo, workflow and packages scopes.
 - Only for deploys: `kubectl` (GitOps, read-only checks) or the Azure CLI (Container Apps), and whatever the target
   needs. The owner creates secrets, identities and cloud resources; the run never does.
+- Only for listing images: Playwright's Chromium (as above), **Pillow** and **numpy** for `chroma_key.py`, and
+  optionally `OPENAI_API_KEY` / `GEMINI_API_KEY` or the Codex plugin for generated images.
 - Optional: **k6** for load tests (`load.mjs` works without it), **cloudflared** is pulled as a container by
   `preview.sh`, the **Claude Code CLI** for the detached driver.
 

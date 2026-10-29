@@ -150,6 +150,8 @@ by a green pipeline alone.
 - No secrets, tokens or real connection strings anywhere in git.
 - A **fresh clone** builds, tests and starts from the README's own commands.
 - CI green on the final commit; the deployed environment (if in scope) serves that commit's version.
+- Listing images per RULES.md (if any), made with designing-app-listing-images from the final build's captures:
+  the set in `final/listing/<target>/`, web images wired into the app and checked in e2e.
 
 When the stop rule holds: finish `final/QA.md`, write the final report in `RUN.md`, write `done` into `docs/STOP`
 (it ends a detached driver or a loop), then report.

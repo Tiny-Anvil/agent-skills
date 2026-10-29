@@ -86,6 +86,7 @@ its description. Answer the setup questions, approve the brief if you asked to, 
 | `/anvil:write-brief <idea>` | Only write the brief with measurable tests, no build |
 | `/anvil:resume-run [feedback]` | Continue a run after a pause, a review or a context limit |
 | `/anvil:deploy <app> <env> <version>` | Put a published image version on an environment and verify it there |
+| `/anvil:listing-images <app>` | Make an app's App Store / Google Play screenshots, link preview and PWA install screenshots |
 
 **Unattended overnight:** at setup, choose the detached driver as the loop. The kickoff template contains a small
 `drive.sh` that keeps re-prompting the session until the stop rule holds, waits at your review checkpoints
@@ -103,6 +104,7 @@ its description. Answer the setup questions, approve the brief if you asked to, 
 | **dotnet-vue-test-harness** | Testcontainers API tests, real-JWT scope tests, guard tests, Vitest, Playwright flows and captures on a throwaway stack, load numbers, preview links for testers. |
 | **github-cicd-dotnet-vue** | PR gates (build, tests, bypass guards), security scan, licence check, Dependabot, multi-arch image to a registry on a GitHub release. |
 | **deploying-container-images** | Image version to an environment through a GitOps PR, Azure Container Apps or your own mechanism, and verification on the environment itself. |
+| **designing-app-listing-images** | Store and web listing images from the app's real screens: copy first, 18 styles, three directions, exact-size exports without alpha; in a run, web images wired into the app. Based on [aso-shots](https://github.com/ceorkm/aso-shots) (MIT). |
 
 ### Game track (Godot + Blender) — [docs/game-builds.md](docs/game-builds.md)
 
@@ -149,7 +151,7 @@ Per-track details: [app builds](docs/app-builds.md#customising), [game builds](d
 .claude-plugin/marketplace.json   the Tiny Anvil marketplace: lists the plugins below
 plugins/anvil/
   .claude-plugin/plugin.json      the anvil plugin
-  skills/                         13 skills, one folder each: SKILL.md + templates and record files
+  skills/                         14 skills, one folder each: SKILL.md + templates and record files
   commands/                       5 short commands, each invoking a skill
 docs/                             app-builds.md, game-builds.md, other-agents.md
 scripts/validate.sh               the checks CI runs
@@ -170,4 +172,5 @@ See [RELEASE-NOTES.md](RELEASE-NOTES.md) for what changed.
 
 ## License
 
-[MIT](LICENSE)
+[MIT](LICENSE). `designing-app-listing-images` builds on [aso-shots](https://github.com/ceorkm/aso-shots) by
+ceorkm (MIT); its notice is in `NOTICE-aso-shots` next to the skill.

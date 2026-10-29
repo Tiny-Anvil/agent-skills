@@ -19,6 +19,8 @@
     "godot",
     "blender",
     "testing",
-    "playwright"
+    "playwright",
+    "app-store-screenshots",
+    "pwa"
   ]
 }
