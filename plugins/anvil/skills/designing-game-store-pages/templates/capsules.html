@@ -1,0 +1,131 @@
+<!doctype html>
+<!-- Store-page capsules for one game: every Steam / itch.io image on one page, each panel at its preset's exact
+     ratio. Export with ../scripts/export_kit.sh (one preset per panel class). Edit only the marked parts:
+     the key-art files and framing, the logo, the colours. Rules: steam-rules.md; composition: key-art.md. -->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    /* EDIT: renders from store_key_art.gd, one per capsule shape (see its SHOTS) */
+    --art-wide: url("keyart/keyart_wide.png");
+    --art-banner: url("keyart/keyart_banner.png");
+    --art-hero: url("keyart/keyart_hero.png");
+    --art-tall: url("keyart/keyart_tall.png");
+    /* EDIT: the game's colours, taken from the renders */
+    --ink: #ffffff;
+    --shade: rgba(0, 0, 0, .55);
+    --page: #10131a;
+  }
+  /* EDIT: the display font, from a file next to this page: the game's own title/UI font, or a free (OFL) display
+     font chosen for the genre and recorded in credits.md with its licence. Never the system default: it falls back
+     to whatever sans the machine has. */
+  @font-face { font-family: "GameDisplay"; src: url("fonts/display.ttf"); font-weight: 400 900; }
+  body { margin: 0; padding: 40px; background: #2a2d33; font-family: system-ui, sans-serif; color: #ccc; }
+  h2 { font: 600 14px system-ui; margin: 28px 0 8px; }
+  .panel { position: relative; overflow: hidden; background: var(--page); }
+  .art { position: absolute; inset: 0; background-size: cover; }
+  .wide { background-image: var(--art-wide); }
+  .tall { background-image: var(--art-tall); }
+  .banner { background-image: var(--art-banner); }
+  .hero { background-image: var(--art-hero); }
+  /* a soft shade behind the logo so it reads on any art; never a text banner */
+  .shade-bottom::after { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 45%, var(--shade)); }
+  .shade-left::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--shade), transparent 60%); }
+  .logo-slot { position: absolute; display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .logo-slot img { max-width: 100%; max-height: 100%; }
+
+  /* EDIT: the logotype, used when the game has no logo file (font, weight, outline for contrast) */
+  .logotype { font: 900 120px/0.9 "GameDisplay", sans-serif; color: var(--ink); letter-spacing: -0.02em;
+              text-transform: uppercase; text-align: center; -webkit-text-stroke: 4px #000; paint-order: stroke fill;
+              text-shadow: 0 6px 0 rgba(0,0,0,.35); white-space: nowrap; }
+
+  /* Panels at the exact preset ratio (CSS px; export.js scales to the preset's pixels) */
+  .steam-header, .steam-library-header { width: 920px; height: 430px; }
+  .steam-small { width: 462px; height: 174px; }
+  .steam-main { width: 1232px; height: 706px; }
+  .steam-vertical { width: 748px; height: 896px; }
+  .steam-page-bg { width: 1438px; height: 810px; }
+  .steam-library-capsule { width: 600px; height: 900px; }
+  .steam-library-hero { width: 1920px; height: 620px; }
+  .steam-library-logo { width: 1280px; height: 720px; background: transparent; }
+  .itch-cover { width: 630px; height: 500px; }
+  .steam-shortcut-icon { width: 256px; height: 256px; background: transparent; }
+  .steam-app-icon { width: 184px; height: 184px; }
+  .trailer-end-card { width: 1920px; height: 1080px; }
+  .trailer-end-card .art { filter: blur(10px) brightness(.4) saturate(.8); transform: scale(1.05); }
+
+  /* EDIT: fine framing per panel. A cover-fitted render only has slack on one axis, so the big moves (subject
+     right of the logo, inside the hero's safe area) belong in the render's camera, not here. */
+  .art { background-position: 50% 50%; }
+  .steam-page-bg .art { filter: blur(6px) brightness(.35); transform: scale(1.05); }
+  /* the hero's safe area (centred 860x380 of 3840x1240): a guide only, hidden at export */
+  .safe { position: absolute; left: 50%; top: 50%; width: 22.4%; height: 30.6%; transform: translate(-50%, -50%);
+          outline: 2px dashed #ff0; z-index: 3; }
+</style>
+</head>
+<body>
+<!-- EDIT: the logo, once. Either an image of the game's logo (transparent PNG/SVG) or the logotype text. -->
+<template id="logo"><div class="logotype">Game<br>Name</div></template>
+<!-- <template id="logo"><img src="logo.png" alt=""></template> -->
+
+<h2>steam-header (920x430) · steam-library-header</h2>
+<div class="panel steam-header shade-left"><div class="art banner"></div>
+  <div class="logo-slot" style="left:5%;top:12%;width:48%;height:76%"></div></div>
+<div class="panel steam-library-header shade-left" style="margin-top:12px"><div class="art banner"></div>
+  <div class="logo-slot" style="left:5%;top:12%;width:48%;height:76%"></div></div>
+
+<h2>steam-small (462x174): the logo must read here</h2>
+<div class="panel steam-small shade-left"><div class="art banner"></div>
+  <div class="logo-slot" style="left:3%;top:6%;width:52%;height:88%"></div></div>
+
+<h2>steam-main (1232x706)</h2>
+<div class="panel steam-main shade-bottom"><div class="art wide"></div>
+  <div class="logo-slot" style="left:20%;bottom:6%;width:60%;height:30%"></div></div>
+
+<h2>steam-vertical (748x896)</h2>
+<div class="panel steam-vertical shade-bottom"><div class="art tall"></div>
+  <div class="logo-slot" style="left:8%;bottom:5%;width:84%;height:28%"></div></div>
+
+<h2>steam-library-capsule (600x900): logo only</h2>
+<div class="panel steam-library-capsule shade-bottom"><div class="art tall"></div>
+  <div class="logo-slot" style="left:8%;bottom:5%;width:84%;height:26%"></div></div>
+
+<h2>steam-library-hero (3840x1240): no words at all; the logo is the separate library logo</h2>
+<div class="panel steam-library-hero"><div class="art hero"></div><div class="safe export-hide"></div></div>
+
+<h2>steam-library-logo (1280x720, transparent): export at 2x, then store_tools.py trim</h2>
+<div class="panel steam-library-logo"><div class="logo-slot" style="inset:4%"></div></div>
+
+<h2>steam-page-bg (1438x810, optional): dark and quiet, behind the store text</h2>
+<div class="panel steam-page-bg"><div class="art wide"></div></div>
+
+<h2>itch-cover (630x500)</h2>
+<div class="panel itch-cover shade-bottom"><div class="art wide"></div>
+  <div class="logo-slot" style="left:6%;bottom:6%;width:88%;height:34%"></div></div>
+
+<h2>steam-shortcut-icon (256, transparent) · steam-app-icon (184, jpg): the logo mark, or the logotype's first letter</h2>
+<div class="panel steam-shortcut-icon"><div class="logo-slot" style="inset:6%"><div class="logotype" style="font-size:200px">G</div></div></div>
+<div class="panel steam-app-icon" style="margin-top:12px"><div class="logo-slot" style="inset:8%"><div class="logotype" style="font-size:140px">G</div></div></div>
+
+<h2>trailer-end-card (1920x1080): the logo on calm art; one optional line the owner gave</h2>
+<div class="panel trailer-end-card"><div class="art wide"></div>
+  <div class="logo-slot" style="left:20%;top:25%;width:60%;height:40%"></div>
+  <!-- <div style="position:absolute;left:0;right:0;bottom:16%;text-align:center;font:600 44px system-ui;color:var(--ink)">Wishlist on Steam</div> -->
+</div>
+
+<script>
+  // One logo for every slot; fit the logotype to its slot (measured, never guessed).
+  const tpl = document.getElementById('logo');
+  for (const slot of document.querySelectorAll('.logo-slot:empty')) slot.append(tpl.content.cloneNode(true));
+  document.fonts.ready.then(() => {
+    for (const t of document.querySelectorAll('.logo-slot .logotype')) {
+      const s = t.parentElement, k = Math.min(s.clientWidth / t.scrollWidth, s.clientHeight / t.scrollHeight);
+      t.style.transform = `scale(${Math.min(k, 4)})`;
+    }
+  });
+  // Guides are for the preview only.
+  if (location.hash === '#export') document.querySelectorAll('.export-hide').forEach(e => e.remove());
+</script>
+</body>
+</html>

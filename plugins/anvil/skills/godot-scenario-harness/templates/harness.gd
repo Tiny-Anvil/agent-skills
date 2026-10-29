@@ -11,7 +11,10 @@ extends Node
 ##   --max-seconds=S        wall-clock guard (default 900): a hung run exits non-zero
 ##   --fps-cap=N            Engine.max_fps
 ##   --seed=N               seed for every gameplay RNG (game code reads Harness.seed_value)
-## Exit codes: 0 ok, 1 scenario failure, 3 scenario missing, 4 wall-clock limit, 5 capture impossible.
+##   --hide-group=a,b       hide every node in these groups for the whole run (debug labels out of store captures)
+## Paths resolve against the project (--path), not the shell's directory: pass absolute paths.
+## Exit codes: 0 ok, 1 scenario failure, 3 scenario missing, 4 wall-clock limit, 5 capture impossible,
+## 6 recording not written.
 
 const SCENARIO_DIR := "res://tests/scenarios/"
 
@@ -70,6 +73,21 @@ func _ready() -> void:
 		InputFrame.start_recording()
 
 
+## Connected here, not in _ready: the main scene can enter the tree before this autoload's _ready.
+func _enter_tree() -> void:
+	if has("hide-group") and not get_tree().node_added.is_connected(_hide_if_grouped):
+		get_tree().node_added.connect(_hide_if_grouped)
+
+
+func _hide_if_grouped(n: Node) -> void:
+	if not (n is Node3D or n is CanvasItem):
+		return
+	for g in arg("hide-group").split(","):
+		if n.is_in_group(g):
+			n.set_deferred("visible", false)
+			return
+
+
 func has(k: String) -> bool:
 	return args.has(k)
 
@@ -80,6 +98,10 @@ func arg(k: String, def := "") -> String:
 
 ## The game calls this once its world exists (end of the main scene's _ready or after loading).
 func world_ready(main: Node) -> void:
+	if has("hide-group"):
+		for g in arg("hide-group").split(","):
+			for n in get_tree().get_nodes_in_group(g):
+				_hide_if_grouped(n)
 	if not has("scenario"):
 		return
 	var path := SCENARIO_DIR + arg("scenario") + ".gd"
@@ -152,8 +174,9 @@ func finish(code := 0) -> void:
 	if quitting:
 		return
 	quitting = true
-	if has("record"):
-		InputFrame.save_recording(arg("record"), {"seed": seed_value})
+	if has("record") and not InputFrame.save_recording(arg("record"), {"seed": seed_value}):
+		if code == 0:
+			code = 6
 	if _log:
 		_log.close()
 		_log = null

@@ -87,6 +87,7 @@ its description. Answer the setup questions, approve the brief if you asked to, 
 | `/anvil:resume-run [feedback]` | Continue a run after a pause, a review or a context limit |
 | `/anvil:deploy <app> <env> <version>` | Put a published image version on an environment and verify it there |
 | `/anvil:listing-images <app>` | Make an app's App Store / Google Play screenshots, link preview and PWA install screenshots |
+| `/anvil:store-page <game>` | Make a game's Steam / itch.io kit: capsules, library art, screenshots, gameplay trailer |
 
 **Unattended overnight:** at setup, choose the detached driver as the loop. The kickoff template contains a small
 `drive.sh` that keeps re-prompting the session until the stop rule holds, waits at your review checkpoints
@@ -117,6 +118,7 @@ its description. Answer the setup questions, approve the brief if you asked to, 
 | **building-blender-assets-by-script** | Assets built by Blender Python with naming contracts for materials, collision and sockets, verified on re-import, with provenance. |
 | **sourcing-and-processing-game-audio** | Sounds from free libraries with licence evidence, rebuilt from recipes with measured loudness, peaks and seamless loops. |
 | **tripo-cli** | Tripo3D text/image-to-3D through its CLI, under a hard credit cap, with a dry run before every paid task. |
+| **designing-game-store-pages** | Steam and itch.io store kit from the real game: capsules and library art from staged renders, gameplay screenshots, a trailer cut by recipe and checked against Valve's spec, the AI-disclosure draft. |
 
 ## Safety
 
@@ -151,7 +153,7 @@ Per-track details: [app builds](docs/app-builds.md#customising), [game builds](d
 .claude-plugin/marketplace.json   the Tiny Anvil marketplace: lists the plugins below
 plugins/anvil/
   .claude-plugin/plugin.json      the anvil plugin
-  skills/                         14 skills, one folder each: SKILL.md + templates and record files
+  skills/                         15 skills, one folder each: SKILL.md + templates and record files
   commands/                       5 short commands, each invoking a skill
 docs/                             app-builds.md, game-builds.md, other-agents.md
 scripts/validate.sh               the checks CI runs

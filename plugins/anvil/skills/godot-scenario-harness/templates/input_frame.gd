@@ -141,11 +141,13 @@ func start_recording() -> void:
 	_rec.clear()
 
 
-func save_recording(path: String, meta := {}) -> void:
+## Returns false when the file cannot be written (Harness then exits 6). Relative paths resolve against the
+## project (--path), not the shell's directory: pass absolute paths.
+func save_recording(path: String, meta := {}) -> bool:
 	var f := FileAccess.open(path, FileAccess.WRITE)
 	if f == null:
 		push_error("[input] cannot write recording " + path)
-		return
+		return false
 	var d: Dictionary = meta.duplicate()
 	d["tick_rate"] = Engine.physics_ticks_per_second
 	d["engine"] = Engine.get_version_info().string
@@ -154,6 +156,7 @@ func save_recording(path: String, meta := {}) -> void:
 	f.store_string(JSON.stringify(d, "", false, true))
 	f.close()
 	print("[input] recording saved %s frames=%d" % [path, _rec.size()])
+	return true
 
 
 func load_playback(path: String) -> Dictionary:

@@ -30,9 +30,9 @@ The working templates are in `templates/`, verified on Godot 4.8 (Linux, NVIDIA)
 | Captures | `prime-run godot --path P --display-driver x11 --rendering-driver vulkan --position -6000,-6000 -- --scenario=look_tour --out=D` |
 | Record | add `--record=run.json` to any run, human (LIVE) or bot |
 | Replay + stills | `... -- --playback=run.json --stills=ticks.json --quit-ticks=N` (`ticks.json` = `[[tick, "x.png"], ...]`) |
-| Clip | windowed + `--write-movie out.avi --fixed-fps 30 --quit-after N` |
+| Clip | windowed + `--write-movie out.avi --fixed-fps 30 --quit-after N` (size and quality: see Gotchas) |
 
-`prime-run` is only needed on hybrid-GPU laptops. Run with `stdbuf -oL` so a timeout can't swallow the verdict line. Exit codes: 1 = scenario failed, 3 = scenario missing, 4 = wall-clock limit, 5 = capture impossible.
+`prime-run` is only needed on hybrid-GPU laptops. Run with `stdbuf -oL` so a timeout can't swallow the verdict line. Exit codes: 1 = scenario failed, 3 = scenario missing, 4 = wall-clock limit, 5 = capture impossible, 6 = recording not written. **Paths after `--` and for `--write-movie` resolve against the project (`--path`), not the shell:** pass absolute paths (measured: a relative `--record` was lost with exit 0 before exit 6 existed; a relative `--write-movie` crashed Godot). `--hide-group=a,b` hides those groups' nodes for the whole run (debug labels out of store captures).
 
 ## Gotchas (measured)
 
@@ -42,6 +42,7 @@ The working templates are in `templates/`, verified on Godot 4.8 (Linux, NVIDIA)
 - **Sample `cam.get_camera_transform()`. It is what gets drawn.** With physics interpolation on, `global_position` steps once per tick: 83 mm steps at 144 FPS while walking 5 m/s.
 - After a teleport, call `reset_physics_interpolation()`, or the first frames smear across the map.
 - Save recordings with `JSON.stringify(d, "", false, true)`. The default rounds floats, so the look deltas drift on replay.
+- **`--write-movie` ignores `--resolution`.** The movie takes the window size at startup: `--resolution 1920x1080` gave 1920×1080 stills and a 1152×648 movie (Godot 4.8). For a filming run, an `override.cfg` next to `project.godot` sets `display/window/size/window_width_override` / `window_height_override` and `editor/movie_writer/video_quality` (MJPEG quality; `mjpeg_quality` is ignored in 4.8). Recipe: designing-game-store-pages → `trailer.md`.
 - A staged or extracted capture scene can silently drop a system: it renders "empty" and reads as a bug. Capture the real boot. If you must stage, assert that the systems under test exist.
 
 ## Measurement Recipes (`Measures`)

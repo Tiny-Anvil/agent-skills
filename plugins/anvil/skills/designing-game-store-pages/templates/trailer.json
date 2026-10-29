@@ -1,0 +1,15 @@
+{
+  "_about": "Trailer recipe for scripts/cut_trailer.py, kept as store/trailer.json. Paths are relative to this file; outputs go to kit/ (in a run: ../final/store/). Segments in trailer order, hard cuts; seconds come from the run sheets (tiles labelled t<tick>_s<second>). Beats and rules: trailer.md.",
+  "out": "kit/trailer/trailer.mp4",
+  "fps": 60,
+  "segments": [
+    {"src": "footage/run1.avi", "start": 41.0, "end": 44.5, "beat": "hook"},
+    {"src": "footage/run1.avi", "start": 3.0, "end": 6.0, "beat": "core loop"},
+    {"src": "footage/run1.avi", "start": 12.5, "end": 15.0, "beat": "core loop"},
+    {"src": "footage/run2.avi", "start": 8.0, "end": 11.0, "beat": "variety"},
+    {"src": "footage/run2.avi", "start": 30.0, "end": 33.5, "beat": "escalation"}
+  ],
+  "end_card": {"image": "kit/trailer/trailer-end-card.png", "seconds": 4},
+  "fade_out": 0.6,
+  "thumbnail": {"src": "footage/run1.avi", "at": 42.2, "out": "kit/trailer/thumbnail.jpg"}
+}
