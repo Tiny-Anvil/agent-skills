@@ -7,7 +7,17 @@
   directions, exports from one list of sizes (`sizes.json`), no baked-in image model IDs. On demand, or in the app
   run's finish pass when chosen at setup, where web images are wired into the app and checked in e2e. Based on
   aso-shots by ceorkm (MIT).
-- **Command:** `/anvil:listing-images`.
+- **Store pages** (new skill, designing-game-store-pages): the Steam and itch.io kit from the real game. Capsules
+  and library art composed from key art staged and rendered in the game (`store_key_art.gd`, any size, no HUD),
+  gameplay screenshots from tick-exact replays (`capture.sh`), a gameplay trailer cut by recipe (`cut_trailer.py`:
+  Valve's format spec, loudness, black and frozen stretches), icons and the AI-disclosure draft (which states an
+  AI-agent-built game as such; the owner decides). Valve's capsule text rules built in; AI key art only after the
+  owner's yes, each time. On demand, or in the game run's finish pass when chosen at setup. Steam and itch.io sizes
+  join `sizes.json`; `export.js` gains `--panel` and `--alpha`.
+- godot-scenario-harness: `--write-movie` ignores `--resolution` and the 4.8 quality key is `video_quality`
+  (measured); paths resolve against the project, not the shell; a recording that cannot be written now exits 6
+  instead of 0; `--hide-group=a,b` keeps debug overlays out of captures.
+- **Commands:** `/anvil:listing-images`, `/anvil:store-page`.
 
 ## 0.1.0
 

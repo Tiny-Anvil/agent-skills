@@ -11,7 +11,7 @@ Listing images get installs and clicks when the **words come first and the desig
 page of panels built from the app's real screens, checked side by side at thumbnail size and exported at exact
 store size with `scripts/export.js`. Sizes live only in `scripts/sizes.json` (`node scripts/export.js --list`).
 
-Based on aso-shots by ceorkm (MIT, `NOTICE-aso-shots`). Game stores (Steam, itch.io) are not covered here.
+Based on aso-shots by ceorkm (MIT, `NOTICE-aso-shots`). Game stores (Steam, itch.io): designing-game-store-pages.
 
 | File | Read it |
 |---|---|

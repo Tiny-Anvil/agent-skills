@@ -21,6 +21,8 @@
     "testing",
     "playwright",
     "app-store-screenshots",
-    "pwa"
+    "pwa",
+    "steam",
+    "itch-io"
   ]
 }

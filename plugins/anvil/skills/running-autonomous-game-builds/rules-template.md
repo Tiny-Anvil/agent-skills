@@ -12,6 +12,11 @@ else. A change by the owner is appended under Changes; it never edits the text a
 - Audio: "<answer>".
 - Engine primitives left unchanged are a blockout, never a final asset.
 
+## Store page kit
+
+"<answer>". AI key art: "<may propose it / never>"; generated only after the owner's yes, each time, logged in
+`store/keyart/prompts.md`. Kit in `final/store/`, made with designing-game-store-pages.
+
 ## Quality bar
 
 "<answer>". Two things matter most: <copied from the brief>.

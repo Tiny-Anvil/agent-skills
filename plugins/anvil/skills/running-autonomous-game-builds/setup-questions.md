@@ -33,6 +33,11 @@ right now, and the opt-in rows mention their cost. Record every answer verbatim 
   "Credit cap?" and "May its own textures be kept?" Record them as one sentence in RULES.md, e.g. "Self-authored,
   except: Tripo3D for enemy characters, at most 300 credits, its textures may be kept; every task in credits.md".
 - **Purchased packs:** "Which folder?"
+- **Store page kit:** "Should the run make the store-page kit in its finish pass?" **None** (default) · **Steam**
+  (capsules, library art, icons, ≥ 5 screenshots, a gameplay trailer, the AI-disclosure draft) · **itch.io** (cover,
+  screenshots, the trailer) · **Both**. If not none: "AI key art?" **May propose it** (the run proposes at a review
+  or in the final report and generates only after your yes, each time) · **Never**. Made with
+  designing-game-store-pages.
 
 ## Not asked: derived or the builder's call
 

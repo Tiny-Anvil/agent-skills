@@ -52,5 +52,5 @@ GD
   echo "created $P/game (Godot baseline + harness)"
 fi
 if [ ! -d "$P/.git" ]; then git -C "$P" init -q && echo "git initialised"; fi
-[ -e "$P/.gitignore" ] || { printf '.godot/\n*.blend1\nqa/raw/\n.drive.lock\n' > "$P/.gitignore"; echo "created $P/.gitignore"; }
+[ -e "$P/.gitignore" ] || { printf '.godot/\n*.blend1\nqa/raw/\n.drive.lock\nstore/footage/*.avi\nstore/keyart/*.png\nstore/kit/\nfinal/store/trailer/*.mp4\n' > "$P/.gitignore"; echo "created $P/.gitignore"; }
 echo "scaffold ready: $P"

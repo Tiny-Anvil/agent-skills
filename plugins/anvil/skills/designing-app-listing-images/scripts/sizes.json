@@ -1,16 +1,30 @@
 {
-  "_about": "The one source of listing-image sizes. export.js reads it; `node export.js --list` prints it. Check the spec link before a release: stores change these.",
+  "_about": "The one source of listing and store-page sizes. export.js reads `presets` (`node export.js --list`); cut_trailer.py reads `trailer`. Check the spec link before a release: stores change these.",
   "presets": {
-    "ios-6.9": { "w": 1320, "h": 2868, "target": "App Store", "use": "iPhone Dynamic Island large", "accepts": ["1290x2796", "1260x2736"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/" },
-    "ios-6.3": { "w": 1206, "h": 2622, "target": "App Store", "use": "iPhone Dynamic Island medium (required size class)", "accepts": ["1179x2556"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/" },
-    "ios-6.5": { "w": 1284, "h": 2778, "target": "App Store", "use": "iPhone Face ID large (only without a Dynamic Island large set)", "accepts": ["1242x2688"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/" },
-    "ipad-13": { "w": 2064, "h": 2752, "target": "App Store", "use": "iPad 13\" (required if the app runs on iPad)", "accepts": ["2048x2732"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/" },
-    "play-phone": { "w": 1080, "h": 1920, "target": "Google Play", "use": "phone, 9:16", "accepts": [], "spec": "https://support.google.com/googleplay/android-developer/answer/9866151" },
-    "play-tablet": { "w": 1440, "h": 2560, "target": "Google Play", "use": "7\"/10\" tablet and Chromebook, 9:16 (16:9 also allowed)", "accepts": [], "spec": "https://support.google.com/googleplay/android-developer/answer/9866151" },
-    "play-feature": { "w": 1024, "h": 500, "target": "Google Play", "use": "feature graphic (required)", "accepts": [], "spec": "https://support.google.com/googleplay/android-developer/answer/9866151" },
-    "og": { "w": 1200, "h": 630, "target": "Web", "use": "link preview (Open Graph / Twitter large card)", "accepts": [], "spec": "https://ogp.me/" },
-    "pwa-narrow": { "w": 1080, "h": 1920, "target": "Web", "use": "PWA install dialog, phones (manifest screenshots, form_factor narrow)", "accepts": [], "spec": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/screenshots" },
-    "pwa-wide": { "w": 1920, "h": 1080, "target": "Web", "use": "PWA install dialog, desktop (manifest screenshots, form_factor wide)", "accepts": [], "spec": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/screenshots" },
-    "hero": { "w": 2400, "h": 1260, "target": "Web", "use": "landing-page hero (on demand only; 2x of a 1200 px wide slot)", "accepts": [], "spec": "" }
-  }
+    "ios-6.9": {"w": 1320, "h": 2868, "target": "App Store", "use": "iPhone Dynamic Island large", "accepts": ["1290x2796", "1260x2736"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/"},
+    "ios-6.3": {"w": 1206, "h": 2622, "target": "App Store", "use": "iPhone Dynamic Island medium (required size class)", "accepts": ["1179x2556"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/"},
+    "ios-6.5": {"w": 1284, "h": 2778, "target": "App Store", "use": "iPhone Face ID large (only without a Dynamic Island large set)", "accepts": ["1242x2688"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/"},
+    "ipad-13": {"w": 2064, "h": 2752, "target": "App Store", "use": "iPad 13\" (required if the app runs on iPad)", "accepts": ["2048x2732"], "spec": "https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications/"},
+    "play-phone": {"w": 1080, "h": 1920, "target": "Google Play", "use": "phone, 9:16", "accepts": [], "spec": "https://support.google.com/googleplay/android-developer/answer/9866151"},
+    "play-tablet": {"w": 1440, "h": 2560, "target": "Google Play", "use": "7\"/10\" tablet and Chromebook, 9:16 (16:9 also allowed)", "accepts": [], "spec": "https://support.google.com/googleplay/android-developer/answer/9866151"},
+    "play-feature": {"w": 1024, "h": 500, "target": "Google Play", "use": "feature graphic (required)", "accepts": [], "spec": "https://support.google.com/googleplay/android-developer/answer/9866151"},
+    "og": {"w": 1200, "h": 630, "target": "Web", "use": "link preview (Open Graph / Twitter large card)", "accepts": [], "spec": "https://ogp.me/"},
+    "pwa-narrow": {"w": 1080, "h": 1920, "target": "Web", "use": "PWA install dialog, phones (manifest screenshots, form_factor narrow)", "accepts": [], "spec": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/screenshots"},
+    "pwa-wide": {"w": 1920, "h": 1080, "target": "Web", "use": "PWA install dialog, desktop (manifest screenshots, form_factor wide)", "accepts": [], "spec": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/screenshots"},
+    "hero": {"w": 2400, "h": 1260, "target": "Web", "use": "landing-page hero (on demand only; 2x of a 1200 px wide slot)", "accepts": [], "spec": ""},
+    "steam-header": {"w": 920, "h": 430, "target": "Steam", "use": "header capsule (required): store top, recommendations, Big Picture", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets"},
+    "steam-small": {"w": 462, "h": 174, "target": "Steam", "use": "small capsule (required): search and list rows; the logo must read at this size", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets"},
+    "steam-main": {"w": 1232, "h": 706, "target": "Steam", "use": "main capsule (required): store front-page carousel", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets"},
+    "steam-vertical": {"w": 748, "h": 896, "target": "Steam", "use": "vertical capsule (required): seasonal sale pages", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets"},
+    "steam-page-bg": {"w": 1438, "h": 810, "target": "Steam", "use": "page background (optional): behind the store page, kept dark and quiet", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets"},
+    "steam-screenshot": {"w": 1920, "h": 1080, "target": "Steam", "use": "screenshot (required, at least 5): gameplay only, 16:9, 1920x1080 or larger", "accepts": ["3840x2160"], "spec": "https://partner.steamgames.com/doc/store/assets"},
+    "steam-library-capsule": {"w": 600, "h": 900, "target": "Steam", "use": "library capsule (required): logo (+ subtitle) only", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets/libraryassets"},
+    "steam-library-header": {"w": 920, "h": 430, "target": "Steam", "use": "library header (required; falls back to the header capsule)", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets/libraryassets"},
+    "steam-library-hero": {"w": 3840, "h": 1240, "target": "Steam", "use": "library hero (required): no words at all; key content in the centred 860x380 safe area", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets/libraryassets"},
+    "steam-library-logo": {"w": 1280, "h": 720, "target": "Steam", "use": "library logo (required): logotype only, transparent PNG, 1280 wide and/or 720 tall (trim the padding)", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets/libraryassets", "alpha": true},
+    "steam-shortcut-icon": {"w": 256, "h": 256, "target": "Steam", "use": "community shortcut icon (required): .ico or .png", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets", "alpha": true},
+    "steam-app-icon": {"w": 184, "h": 184, "target": "Steam", "use": "community app icon (required): .jpg", "accepts": [], "spec": "https://partner.steamgames.com/doc/store/assets", "format": "jpeg"},
+    "itch-cover": {"w": 630, "h": 500, "target": "itch.io", "use": "cover image: 315:250, 630x500 recommended", "accepts": [], "spec": "https://itch.io/docs/creators/getting-started"}
+  },
+  "trailer": {"w": 1920, "h": 1080, "fps": [30, 60], "min_kbps": 5000, "video_codec": "h264", "audio_codec": "aac", "audio_rate": 48000, "loudness_lufs": -14, "true_peak_db": -1.0, "thumbnail": [1920, 1080], "spec": "https://partner.steamgames.com/doc/store/trailer"}
 }

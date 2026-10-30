@@ -26,7 +26,8 @@ running-autonomous-game-builds
                           |  sound effects, loops, music:            sourcing-and-processing-game-audio
                        pause only at the configured review checkpoints
   4. Stop rule:      completion conditions / budget cap / time cap (from docs/RULES.md)
-                     -> finish pass -> final/QA.md -> report
+                     -> finish pass (+ store-page kit if RULES.md asks: designing-game-store-pages)
+                     -> final/QA.md -> report
 ```
 
 ## The skills
@@ -40,6 +41,7 @@ running-autonomous-game-builds
 | `building-blender-assets-by-script` | Creating game assets in Blender by Python script for Godot, preparing generated/purchased/mocap models, or fixing export problems (axes, collision, sockets, materials, provenance) | `SKILL.md`, `generated-models.md`, `templates/kitlib_min.py`, `build_example.py`, `verify_glb.py`, `check_kit.gd` |
 | `sourcing-and-processing-game-audio` | Sourcing sound from free libraries with licences recorded, then editing, levelling, looping and wiring it into Godot by script | `SKILL.md`, `templates/build_audio.py` |
 | `tripo-cli` | Generating, texturing, rigging or retargeting models with Tripo3D through the `tripo` CLI, within a credit cap | `SKILL.md` (points to the CLI's own bundled instructions) |
+| `designing-game-store-pages` | The store-page kit from the real game: Steam capsules, library art, icons, gameplay screenshots, a gameplay trailer, the itch.io cover, the AI-disclosure draft; on demand (`/anvil:store-page`) or in the finish pass | `SKILL.md`, `steam-rules.md`, `key-art.md`, `trailer.md`, `templates/store_key_art.gd`, `capsules.html`, `trailer.json`, `AI-DISCLOSURE.md`, `STORE-KIT.md`, `scripts/capture.sh`, `export_kit.sh`, `cut_trailer.py`, `store_tools.py` (sizes from designing-app-listing-images → `sizes.json`) |
 
 ## Requirements
 
@@ -48,7 +50,8 @@ running-autonomous-game-builds
 - **Blender with its bundled Python**, run in background mode (`blender --background --python ...`). The templates
   target Blender 4.2+ (verified 4.2 to Godot 4.8).
 - **Python 3**, for `build_audio.py` and the detached driver's wallet writer.
-- **ffmpeg and ffprobe**, for the audio pipeline (`FFMPEG` env var to override the binary).
+- **ffmpeg and ffprobe**, for the audio pipeline (`FFMPEG` env var to override the binary) and the trailer.
+- Only for the store-page kit: **Node.js with Playwright's Chromium** (capsule export) and **Pillow** (`store_tools.py`).
 - **git** and **bash** (`scaffold.sh` initialises a git repo in the project).
 - **Optional, paid: Tripo3D.** The `tripo` CLI (`npm install -g tripo-cli`, so Node.js/npm), an API key in
   `TRIPO_API_KEY`, and a non-zero API balance (`tripo doctor`, `tripo balance`). Used only when the run's rules allow
@@ -80,11 +83,12 @@ reads `docs/RULES.md`, `RUN.md`, the latest look and `final/QA.md` first.
 | `blender/` | Blender build scripts and `.blend` outputs |
 | `qa/` | tests and raw logs |
 | `looks/` | one record per look (`L###/`), plus `LOOK_TEMPLATE.md` |
-| `final/` | the best verified build's captures and `QA.md` |
+| `final/` | the best verified build's captures and `QA.md`; `final/store/` the store-page kit when RULES.md asks |
 | `docs/` | `RULES.md`, `BRIEF.md`, `KICKOFF.md`, `SPEC.md` (asset contract), `ARCHITECTURE.md` (code card for helpers) |
 | `prompts/` | every input as sent, verbatim and append-only |
 | `RUN.md` | run record: intent, decisions, look history, feedback, findings, final report |
 | `credits.md` | provenance of every external item and generated task |
+| `store/` | store-kit recipes: footage recordings, `capsules.html`, `trailer.json`, key-art prompts (the large renders and movies are gitignored) |
 | `DELEGATION.md` | helper spawns and finishes |
 | `.gitignore` | `.godot/`, `*.blend1`, `qa/raw/`, `.drive.lock` |
 

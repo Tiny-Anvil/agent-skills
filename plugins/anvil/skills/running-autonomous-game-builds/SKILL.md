@@ -95,6 +95,8 @@ On top of that loop:
 - The editable sources next to the game (`blender/`).
 - No absolute paths; tools found through env vars.
 - A fresh-process launch from the README's own command.
+- The store-page kit per RULES.md (if any), made with designing-game-store-pages from the final build: `final/store/`
+  with `STORE-KIT.md`, `trailer_report.md` all PASS, and the AI-disclosure draft.
 
 When the stop rule holds: finish `final/QA.md`, write the final report in `RUN.md`, write `done` into `docs/STOP`
 (it ends a detached driver or a self-paced loop), then report.
