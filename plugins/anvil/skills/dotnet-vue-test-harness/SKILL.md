@@ -118,6 +118,8 @@ guard for tests.
 - Name files `<screen>-<state>-<project>.png` under `data/run/increments/I###/captures/`. Open every one before
   writing a verdict (iterating-with-verified-increments).
 - `trace: 'retain-on-failure'`; attach the trace to the increment record when a flow fails.
+- **Listing images** (when RULES.md asks for them): every manifest `screenshots` entry and the `og:image` URL return
+  200 with an image content type, and the `og:image` host is the stack's configured public base URL.
 - The real login (Entra/Logto/...) cannot be automated without a test account. Unless RULES.md provides one, mark
   the "real sign-in on the deployed environment" check as owner eyes-on and say why.
 - **Browsers:** `pnpm exec playwright install chromium` once at setup (it downloads a browser: needs the owner's

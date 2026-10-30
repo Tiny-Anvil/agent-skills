@@ -1,6 +1,15 @@
 # Release notes
 
-## 0.1.0 (unreleased)
+## 0.2.0 (unreleased)
+
+- **Listing images** (new skill, designing-app-listing-images): App Store / Google Play screenshot sets, the
+  link-preview image and PWA install screenshots from the app's real screens; copy first, 18 styles, three
+  directions, exports from one list of sizes (`sizes.json`), no baked-in image model IDs. On demand, or in the app
+  run's finish pass when chosen at setup, where web images are wired into the app and checked in e2e. Based on
+  aso-shots by ceorkm (MIT).
+- **Command:** `/anvil:listing-images`.
+
+## 0.1.0
 
 First public version.
 

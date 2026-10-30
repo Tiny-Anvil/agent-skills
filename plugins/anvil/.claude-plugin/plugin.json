@@ -1,7 +1,7 @@
 {
   "name": "anvil",
   "description": "Skills for building whole apps and games autonomously, evidence first: a .NET + Vue web app with CI/CD and deployment, or a Godot game with Blender assets and audio, from one setup round to a verified result.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Tiny Anvil"
   },
@@ -19,6 +19,8 @@
     "godot",
     "blender",
     "testing",
-    "playwright"
+    "playwright",
+    "app-store-screenshots",
+    "pwa"
   ]
 }

@@ -176,6 +176,9 @@ the account email, an employer or another repo's names: personal and work projec
   caching only for safe lookup GETs. Behind an access proxy (e.g. Cloudflare Access) set the manifest's
   `useCredentials: true`. **Android installs only from a secure origin** (HTTPS or localhost): a LAN `http://`
   address cannot install; offer an opt-in HTTPS endpoint (e.g. Caddy `tls internal`) or a tunnel.
+- **Listing images (when RULES.md asks for them):** the manifest lists `screenshots` (`form_factor` narrow and wide,
+  each with a `label`), and `index.html` carries `og:*` and `twitter:card` tags whose image and URL are absolute,
+  built from the configured public base URL. Files in `public/listing/`, made with designing-app-listing-images.
 - Lint: ESLint flat config (`flat/essential` + `vueTsConfigs.recommended` + prettier skip-formatting); Prettier owns
   formatting. `build` = `vue-tsc -b && vite build`.
 - Component-first and DRY: reuse `shared/components/ui/Ui*` before writing markup; extract composables/components

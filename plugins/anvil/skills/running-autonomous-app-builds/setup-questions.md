@@ -30,6 +30,11 @@ Loop, as a follow-up or a fifth question:
 ## Follow-ups (only when they apply)
 
 - **Budget or time cap:** "How much?" (dollars, or an end time).
+- **Listing images** (ask whenever the app has a web frontend): "Which listing images should the run make?"
+  **None** (default) · **Web + PWA** (link-preview image and PWA install screenshots, wired into the app) ·
+  **Web + PWA + app stores** (also App Store / Google Play sets, as files; only useful if the app will be wrapped
+  for a store). If not none: "May it generate images (people, objects, scenery) with your image API key or Codex,
+  and up to how many?" Default: no, code-only. Made in the finish pass with designing-app-listing-images.
 - **Containers** (ask whenever the app has a web frontend): "API and frontend in one container, or separate?"
   Recommend from the shape of the app, recommended option first:
   - **One container** (default): the SPA is built into the API's `wwwroot/` and served from the same origin.
