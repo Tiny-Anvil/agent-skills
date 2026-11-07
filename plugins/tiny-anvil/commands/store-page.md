@@ -4,7 +4,7 @@ argument-hint: <game project path, or a folder of screenshots and footage>
 disable-model-invocation: true
 ---
 
-Invoke the anvil:designing-game-store-pages skill and follow it exactly as presented to you. Inside a game run's
+Invoke the tiny-anvil:designing-game-store-pages skill and follow it exactly as presented to you. Inside a game run's
 workspace (`docs/RULES.md` exists), take the scope and the AI key-art rule from RULES.md and work without asking;
 otherwise start with the intake. The game:
 

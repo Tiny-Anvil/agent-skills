@@ -8,7 +8,7 @@ Sources read: the ledger in `credits.md` / `credits/<domain>.md` (generated mode
 `audio_src/*.json` (AI mark), `store/keyart/prompts.md` (AI key art, with the owner's yes), RULES.md (what
 generation was allowed).
 
-## Made by an AI agent (anvil-built games: keep this section, then let the owner decide)
+## Made by an AI agent (tiny-anvil-built games: keep this section, then let the owner decide)
 
 <GAME> was built by an AI coding agent working under the developer's direction and review: its code, its levels or
 layouts, its script-built models and textures, and its UI were authored by the agent. <Adjust to what the run's
@@ -33,7 +33,7 @@ owner reads Valve's current wording and decides what to submit. Do not delete th
 ## Not AI-generated
 
 Screenshots and the trailer are captured from the game itself. <List only what no AI made: hand-made assets,
-real recordings from libraries, purchased packs. In an anvil-built game, "procedural" or "made by script" means the
+real recordings from libraries, purchased packs. In an tiny-anvil-built game, "procedural" or "made by script" means the
 agent wrote the script: that belongs in the first section, not here.>
 
 ## Short text for the survey field

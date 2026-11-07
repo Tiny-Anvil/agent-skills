@@ -1,4 +1,4 @@
-# anvil
+# tiny-anvil
 
 The first plugin in the Tiny Anvil marketplace: 15 skills and 7 commands for building whole apps (.NET + Vue, CI/CD,
 deployment, listing images) and games (Godot, Blender, audio, store pages) autonomously, evidence first.

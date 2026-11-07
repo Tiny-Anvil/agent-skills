@@ -2,6 +2,9 @@
 
 ## 0.2.0 (unreleased)
 
+- **Breaking: the plugin is now `tiny-anvil`** (was `anvil`), so commands and skills read `/tiny-anvil:build-app`,
+  `tiny-anvil:running-autonomous-app-builds`. To move over: `/plugin uninstall anvil@tiny-anvil`, then
+  `/plugin marketplace update tiny-anvil` and `/plugin install tiny-anvil@tiny-anvil`.
 - **Listing images** (new skill, designing-app-listing-images): App Store / Google Play screenshot sets, the
   link-preview image and PWA install screenshots from the app's real screens; copy first, 18 styles, three
   directions, exports from one list of sizes (`sizes.json`), no baked-in image model IDs. On demand, or in the app
@@ -17,7 +20,7 @@
 - godot-scenario-harness: `--write-movie` ignores `--resolution` and the 4.8 quality key is `video_quality`
   (measured); paths resolve against the project, not the shell; a recording that cannot be written now exits 6
   instead of 0; `--hide-group=a,b` keeps debug overlays out of captures.
-- **Commands:** `/anvil:listing-images`, `/anvil:store-page`.
+- **Commands:** `/tiny-anvil:listing-images`, `/tiny-anvil:store-page`.
 
 ## 0.1.0
 

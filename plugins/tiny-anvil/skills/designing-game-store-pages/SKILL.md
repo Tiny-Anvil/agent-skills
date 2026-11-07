@@ -33,7 +33,7 @@ Sizes live only in `../designing-app-listing-images/scripts/sizes.json` (presets
 
 | The game is | Then |
 |---|---|
-| A Godot project with godot-scenario-harness (anvil-built) | full path: record, film, stills, key-art renders |
+| A Godot project with godot-scenario-harness (tiny-anvil-built) | full path: record, film, stills, key-art renders |
 | Another Godot project | offer to add the harness (godot-scenario-harness → Existing Projects). It writes into the owner's repo: **only after a yes**. On a no: next row |
 | Any game ("bring your own") | a folder of screenshots (≥ 1920×1080) and footage, plus a logo if it has one. Select, crop to 16:9, compose, cut; never invent gameplay, never upscale below-spec images |
 
@@ -43,7 +43,7 @@ optional end-card line (release window, "Wishlist on Steam"); whether a recordin
 
 ## Two modes
 
-| | On demand (`/anvil:store-page`) | In a game run (finish pass) |
+| | On demand (`/tiny-anvil:store-page`) | In a game run (finish pass) |
 |---|---|---|
 | Scope | asked at intake | `docs/RULES.md` → Store page kit (`Steam`, `itch.io`, both) |
 | Moments, views, logo, beats | proposed, the owner picks or edits | the agent decides; each decision and why in `RUN.md` → Decisions |

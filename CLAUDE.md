@@ -4,8 +4,8 @@ Guidance for Claude Code in this repo. What the skills do and how they install: 
 
 ## Project
 
-The Tiny Anvil plugin marketplace. `.claude-plugin/marketplace.json` lists the plugins; the first, **anvil**
-(`plugins/anvil/`), holds the skills for building whole apps and games autonomously, plus short commands that each
+The Tiny Anvil plugin marketplace. `.claude-plugin/marketplace.json` lists the plugins; the first, **tiny-anvil**
+(`plugins/tiny-anvil/`), holds the skills for building whole apps and games autonomously, plus short commands that each
 invoke a skill. Per-track docs in `docs/` (`app-builds.md`, `game-builds.md`, `other-agents.md`).
 
 ## Rules

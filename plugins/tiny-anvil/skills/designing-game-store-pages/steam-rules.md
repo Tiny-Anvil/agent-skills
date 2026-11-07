@@ -54,7 +54,7 @@ Rules in effect since 2022-09-01:
 
 Steam's content survey asks whether AI-generated content ships, before review: **pre-generated** (made during
 development, e.g. art, models, sound, text) described in detail, and **live-generated** (made at runtime) with its
-guardrails. It is about content players consume; efficiency gains from AI tools are not its focus. An anvil-built
+guardrails. It is about content players consume; efficiency gains from AI tools are not its focus. An tiny-anvil-built
 game's levels, script-built models and UI were authored by an AI agent: that is content, so the draft
 (`templates/AI-DISCLOSURE.md`) states it in its first section. The owner reads Valve's current wording, decides and
 submits; the skill never drops that section on its own.
@@ -78,5 +78,5 @@ submits; the skill never drops that section on its own.
 - [ ] Trailer: `trailer_report.md` all PASS (incl. no black or frozen gameplay); a contact sheet of the finished
       trailer looked at (gameplay from the first tile, end card last, no debug overlays).
 - [ ] Key art uses the game's own models and renderer, or an AI image the owner approved (logged).
-- [ ] `AI-DISCLOSURE.md` drafted from every log, with the "made by an AI agent" section for an anvil-built game.
+- [ ] `AI-DISCLOSURE.md` drafted from every log, with the "made by an AI agent" section for an tiny-anvil-built game.
 - [ ] `STORE-KIT.md` lists every file and where it goes.

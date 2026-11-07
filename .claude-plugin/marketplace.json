@@ -6,14 +6,14 @@
   },
   "plugins": [
     {
-      "name": "anvil",
+      "name": "tiny-anvil",
       "description": "Skills for building whole apps and games autonomously, evidence first: a .NET + Vue web app with CI/CD and deployment, or a Godot game with Blender assets and audio, from one setup round to a verified result.",
       "version": "0.2.0",
-      "source": "./plugins/anvil",
+      "source": "./plugins/tiny-anvil",
       "author": {
         "name": "Tiny Anvil"
       },
-      "homepage": "https://github.com/Tiny-Anvil/agent-skills/tree/main/plugins/anvil",
+      "homepage": "https://github.com/Tiny-Anvil/agent-skills/tree/main/plugins/tiny-anvil",
       "license": "MIT",
       "keywords": [
         "skills",

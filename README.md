@@ -1,6 +1,6 @@
 # Tiny Anvil agent skills
 
-The Tiny Anvil marketplace. Its first plugin, **anvil**, holds agent skills for building **whole apps and games autonomously**, where "done" means proven by evidence and not
+The Tiny Anvil marketplace. Its first plugin, **tiny-anvil**, holds agent skills for building **whole apps and games autonomously**, where "done" means proven by evidence and not
 "it compiled and the agent felt finished".
 
 You describe what you want. The agent asks you a short round of setup questions once: where it runs, how far it may
@@ -22,7 +22,7 @@ The skills are written for [Claude Code](https://docs.claude.com/en/docs/claude-
 ## How it works
 
 ```
-  you: "/anvil:build-app <idea>"
+  you: "/tiny-anvil:build-app <idea>"
         |
   1. Setup (once, interactive)    request stored verbatim -> setup questions -> tools checked
         |                         -> workspace scaffolded -> RULES.md (the run's constitution)
@@ -53,26 +53,26 @@ A few ideas carry the whole thing:
 
 ```
 /plugin marketplace add Tiny-Anvil/agent-skills
-/plugin install anvil@tiny-anvil
+/plugin install tiny-anvil@tiny-anvil
 ```
 
-The first line adds the Tiny Anvil marketplace (this repo); the second installs the **anvil** plugin from it.
-Check it worked: `/help` lists the `/anvil:*` commands. Update later with `/plugin marketplace update tiny-anvil`.
+The first line adds the Tiny Anvil marketplace (this repo); the second installs the **tiny-anvil** plugin from it.
+Check it worked: `/help` lists the `/tiny-anvil:*` commands. Update later with `/plugin marketplace update tiny-anvil`.
 
 ### Other agents and models
 
-Copy `plugins/anvil/skills/*` into your agent's skills directory; to use another model inside Claude Code, point it at an
+Copy `plugins/tiny-anvil/skills/*` into your agent's skills directory; to use another model inside Claude Code, point it at an
 Anthropic-compatible endpoint. Details, and what does not carry over: [docs/other-agents.md](docs/other-agents.md).
 
 ## Quick start
 
 ```
-/anvil:build-app A planner for a sports club: members sign up for training slots, coaches see who is
+/tiny-anvil:build-app A planner for a sports club: members sign up for training slots, coaches see who is
 coming. Phones first. Make it as good as you can.
 ```
 
 ```
-/anvil:build-game A small 3D arena game in Godot: the player dodges and pushes enemies off a floating
+/tiny-anvil:build-game A small 3D arena game in Godot: the player dodges and pushes enemies off a floating
 platform. Make it as good as you can.
 ```
 
@@ -81,13 +81,13 @@ its description. Answer the setup questions, approve the brief if you asked to, 
 
 | Command | What it does |
 |---|---|
-| `/anvil:build-app <idea>` | Start an autonomous web app build (setup first) |
-| `/anvil:build-game <idea>` | Start an autonomous game build (setup first) |
-| `/anvil:write-brief <idea>` | Only write the brief with measurable tests, no build |
-| `/anvil:resume-run [feedback]` | Continue a run after a pause, a review or a context limit |
-| `/anvil:deploy <app> <env> <version>` | Put a published image version on an environment and verify it there |
-| `/anvil:listing-images <app>` | Make an app's App Store / Google Play screenshots, link preview and PWA install screenshots |
-| `/anvil:store-page <game>` | Make a game's Steam / itch.io kit: capsules, library art, screenshots, gameplay trailer |
+| `/tiny-anvil:build-app <idea>` | Start an autonomous web app build (setup first) |
+| `/tiny-anvil:build-game <idea>` | Start an autonomous game build (setup first) |
+| `/tiny-anvil:write-brief <idea>` | Only write the brief with measurable tests, no build |
+| `/tiny-anvil:resume-run [feedback]` | Continue a run after a pause, a review or a context limit |
+| `/tiny-anvil:deploy <app> <env> <version>` | Put a published image version on an environment and verify it there |
+| `/tiny-anvil:listing-images <app>` | Make an app's App Store / Google Play screenshots, link preview and PWA install screenshots |
+| `/tiny-anvil:store-page <game>` | Make a game's Steam / itch.io kit: capsules, library art, screenshots, gameplay trailer |
 
 **Unattended overnight:** at setup, choose the detached driver as the loop. The kickoff template contains a small
 `drive.sh` that keeps re-prompting the session until the stop rule holds, waits at your review checkpoints
@@ -138,7 +138,7 @@ happy for it to change, give it tokens scoped to that project, and read the rule
 
 The defaults are opinionated, and meant to be yours after a fork:
 
-- **Stack and conventions:** [`house-stack.md`](plugins/anvil/skills/running-autonomous-app-builds/house-stack.md) for apps; the
+- **Stack and conventions:** [`house-stack.md`](plugins/tiny-anvil/skills/running-autonomous-app-builds/house-stack.md) for apps; the
   scaffold and asset contract for games.
 - **Setup questions, rules and kickoff:** the templates next to each `running-autonomous-*` skill.
 - **Brief and record templates:** next to the brief and iterating skills.
@@ -151,15 +151,15 @@ Per-track details: [app builds](docs/app-builds.md#customising), [game builds](d
 
 ```
 .claude-plugin/marketplace.json   the Tiny Anvil marketplace: lists the plugins below
-plugins/anvil/
-  .claude-plugin/plugin.json      the anvil plugin
+plugins/tiny-anvil/
+  .claude-plugin/plugin.json      the tiny-anvil plugin
   skills/                         15 skills, one folder each: SKILL.md + templates and record files
   commands/                       5 short commands, each invoking a skill
 docs/                             app-builds.md, game-builds.md, other-agents.md
 scripts/validate.sh               the checks CI runs
 ```
 
-More plugins go next to `anvil` under `plugins/`, each with its own entry in `marketplace.json`.
+More plugins go next to `tiny-anvil` under `plugins/`, each with its own entry in `marketplace.json`.
 
 ## Contributing
 
