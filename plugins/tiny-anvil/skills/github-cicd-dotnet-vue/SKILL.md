@@ -50,8 +50,9 @@ Rules:
   delivery; `security-events: write` only for CodeQL; `id-token: write` only where OIDC login happens.
 - **Never** `pull_request_target`, `write-all`, secrets in `run:` lines, or `${{ github.event.* }}` expanded inside a
   shell script (pass it through `env:` and quote it).
-- Pin actions to a major (`actions/checkout@v7`, `actions/setup-dotnet@v6`, `actions/setup-node@v7`,
-  `pnpm/action-setup@v4`); Dependabot's `github-actions` ecosystem keeps them current.
+- Pin GitHub's own actions (`actions/*`, `github/*`) to a major (`actions/checkout@v7`); pin every third-party action
+  to a full commit SHA with its version as a comment (`docker/login-action@<40-char sha> # v4.8.0`), since a tag
+  can be moved to other code. Dependabot's `github-actions` ecosystem keeps both current.
 - **Private NuGet feed:** keep the source key in `nuget.config`; in CI, credit it with
   `dotnet nuget update source <key> --username ... --password "$TOKEN" --store-password-in-clear-text` from a repo
   secret; in Docker, pass the token as a build secret (`--secret id=nuget`) in a discarded stage, never as a
@@ -100,6 +101,7 @@ docker run --rm -e ... ghcr.io/<owner>/<repo>:<version>      # optional: boots, 
 |---|---|
 | "The workflow file exists, so PRs are gated" | Check the trigger and see a red run once. |
 | "`dotnet list package --vulnerable` exited 0, so we're clean" | It always exits 0. Parse the output. |
+| "`uses: some-vendor/action@v4` is pinned" | A tag can be moved; pin a third-party action to its commit SHA. |
 | "Tag it `:latest`, it's simpler" | Pin the version; a moving tag is neither a deploy nor a rollback. |
 | "I'll add the token as a build-arg in the final stage" | Only as a build secret in a discarded stage, never in a published layer. |
 | "Pipeline green, image delivered, so it's deployed" | Delivery is not deployment: deploying-container-images → Verifying a deploy. |
