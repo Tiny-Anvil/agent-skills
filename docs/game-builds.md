@@ -41,7 +41,7 @@ running-autonomous-game-builds
 | `building-blender-assets-by-script` | Creating game assets in Blender by Python script for Godot, preparing generated/purchased/mocap models, or fixing export problems (axes, collision, sockets, materials, provenance) | `SKILL.md`, `generated-models.md`, `templates/kitlib_min.py`, `build_example.py`, `verify_glb.py`, `check_kit.gd` |
 | `sourcing-and-processing-game-audio` | Sourcing sound from free libraries with licences recorded, then editing, levelling, looping and wiring it into Godot by script | `SKILL.md`, `templates/build_audio.py` |
 | `tripo-cli` | Generating, texturing, rigging or retargeting models with Tripo3D through the `tripo` CLI, within a credit cap | `SKILL.md` (points to the CLI's own bundled instructions) |
-| `designing-game-store-pages` | The store-page kit from the real game: Steam capsules, library art, icons, gameplay screenshots, a gameplay trailer, the itch.io cover, the AI-disclosure draft; on demand (`/anvil:store-page`) or in the finish pass | `SKILL.md`, `steam-rules.md`, `key-art.md`, `trailer.md`, `templates/store_key_art.gd`, `capsules.html`, `trailer.json`, `AI-DISCLOSURE.md`, `STORE-KIT.md`, `scripts/capture.sh`, `export_kit.sh`, `cut_trailer.py`, `store_tools.py` (sizes from designing-app-listing-images → `sizes.json`) |
+| `designing-game-store-pages` | The store-page kit from the real game: Steam capsules, library art, icons, gameplay screenshots, a gameplay trailer, the itch.io cover, the AI-disclosure draft; on demand (`/tiny-anvil:store-page`) or in the finish pass | `SKILL.md`, `steam-rules.md`, `key-art.md`, `trailer.md`, `templates/store_key_art.gd`, `capsules.html`, `trailer.json`, `AI-DISCLOSURE.md`, `STORE-KIT.md`, `scripts/capture.sh`, `export_kit.sh`, `cut_trailer.py`, `store_tools.py` (sizes from designing-app-listing-images → `sizes.json`) |
 
 ## Requirements
 
@@ -64,13 +64,13 @@ running-autonomous-game-builds
 In an empty project directory, after installing the plugin (see the [README](../README.md#installation)):
 
 ```
-/anvil:build-game Build a small 3D arena game in Godot end to end: the player dodges and pushes enemies off a floating platform.
+/tiny-anvil:build-game Build a small 3D arena game in Godot end to end: the player dodges and pushes enemies off a floating platform.
 Make it as good as you can.
 ```
 
 The agent stores the request, asks the setup questions (asset and audio sources, generative services, quality bar,
 stop rule, review checkpoints, agent policy, loop), scaffolds the workspace, writes `docs/RULES.md` and the brief,
-and then runs until the stop rule holds. To resume after a pause or a context limit, run `/anvil:resume-run` (or ask it to continue the run); it
+and then runs until the stop rule holds. To resume after a pause or a context limit, run `/tiny-anvil:resume-run` (or ask it to continue the run); it
 reads `docs/RULES.md`, `RUN.md`, the latest look and `final/QA.md` first.
 
 ## Where the run writes
@@ -98,15 +98,15 @@ During the run the skills also use `audio_src/` (untouched audio originals with 
 
 ## Customising
 
-- **Setup questions and their options:** [`setup-questions.md`](../plugins/anvil/skills/running-autonomous-game-builds/setup-questions.md). The recommended
+- **Setup questions and their options:** [`setup-questions.md`](../plugins/tiny-anvil/skills/running-autonomous-game-builds/setup-questions.md). The recommended
   option is listed first.
 - **Run rules layout and the defaults when no rules exist:** `rules-template.md` and the Stopping section of
   `running-autonomous-game-builds/SKILL.md`.
-- **Workspace layout and the Godot baseline:** [`scaffold.sh`](../plugins/anvil/skills/running-autonomous-game-builds/scaffold.sh).
+- **Workspace layout and the Godot baseline:** [`scaffold.sh`](../plugins/tiny-anvil/skills/running-autonomous-game-builds/scaffold.sh).
 - **Kickoff prompt and detached driver:** `kickoff-template.md`.
-- **Brief structure and standard tests:** [`brief-template.md`](../plugins/anvil/skills/writing-game-briefs/brief-template.md).
+- **Brief structure and standard tests:** [`brief-template.md`](../plugins/tiny-anvil/skills/writing-game-briefs/brief-template.md).
 - **Look, run and QA records, passes and the visual review checklist:** the `.md` files in
-  [`iterating-with-look-checkpoints/`](../plugins/anvil/skills/iterating-with-look-checkpoints/).
+  [`iterating-with-look-checkpoints/`](../plugins/tiny-anvil/skills/iterating-with-look-checkpoints/).
 - **Harness input mapping:** the three `_sample_live_*` functions in `templates/input_frame.gd`; capture viewpoints
   in `templates/scenarios/look_tour.gd`; jitter thresholds in `templates/scenarios/t_jitter.gd`.
 - **Asset contract** (axes, material roles, collision and socket naming, triangle budgets): the Contract table in

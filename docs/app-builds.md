@@ -40,11 +40,11 @@ running-autonomous-app-builds
 | `dotnet-vue-test-harness` | Tests through the real stack: Testcontainers, real-JWT scope tests, guard tests, Vitest, Playwright flows and captures, load, preview copies | `SKILL.md`, `templates/playwright.config.ts`, `capture.spec.ts`, `e2e.sh`, `load.mjs`, `k6-smoke.js`, `preview.sh`, `preview.compose.yml` |
 | `github-cicd-dotnet-vue` | PR gates, security and licence checks, Dependabot, and the release-triggered image build | `SKILL.md`, `templates/shared/` (callers of [Tiny-Anvil/workflows](https://github.com/Tiny-Anvil/workflows)), standalone `build-dotnet.yml`, `build-frontend.yml`, `security.yml`, `license-check.yml`, `build-image.yml`, plus `dependabot.yml`, `Dockerfile`, `dockerignore` |
 | `deploying-container-images` | Getting an image version onto an environment (GitOps PR, Azure Container Apps, other) and proving it runs there | `SKILL.md`, `templates/gitops/bump.sh`, `gitops/base-deployment.yaml`, `gitops/overlay-kustomization.yaml`, `azure-container-apps/deploy.yml`, `verify-deploy.sh` |
-| `designing-app-listing-images` | App Store / Google Play screenshot sets, the link-preview image, PWA install screenshots or a landing hero, on demand (`/anvil:listing-images`) or in the finish pass | `SKILL.md`, `copywriting.md`, `STYLES.md` + `styles/` (18), `assets.md`, `build.md`, `scripts/export.js` + `sizes.json` (the one list of sizes), `gen_image.py`, `chroma_key.py`, `fetch_listing.py` |
+| `designing-app-listing-images` | App Store / Google Play screenshot sets, the link-preview image, PWA install screenshots or a landing hero, on demand (`/tiny-anvil:listing-images`) or in the finish pass | `SKILL.md`, `copywriting.md`, `STYLES.md` + `styles/` (18), `assets.md`, `build.md`, `scripts/export.js` + `sizes.json` (the one list of sizes), `gen_image.py`, `chroma_key.py`, `fetch_listing.py` |
 
 ## The stack it builds
 
-The defaults live in one file, [`house-stack.md`](../plugins/anvil/skills/running-autonomous-app-builds/house-stack.md). In
+The defaults live in one file, [`house-stack.md`](../plugins/tiny-anvil/skills/running-autonomous-app-builds/house-stack.md). In
 short:
 
 - **API:** .NET 10 minimal API, one class per endpoint, `TypedResults`, FluentValidation that fails closed,
@@ -83,13 +83,13 @@ not depend on .NET or Vue; the test-harness and CI templates do.
 In an empty directory (or an existing repo), after installing the plugin (see the [README](../README.md#installation)):
 
 ```
-/anvil:build-app A planner for a sports club: members sign up for training slots, coaches see who is coming.
+/tiny-anvil:build-app A planner for a sports club: members sign up for training slots, coaches see who is coming.
 Phones first. Make it as good as you can.
 ```
 
 The agent stores the request, asks the setup questions in two rounds (hosting, repo, auth, quality bar; deploy
 gates, stop rule, reviews, agents), checks the tools, scaffolds `data/run/`, writes the rules and the brief, and
-then runs until the stop rule holds. Resume with `/anvil:resume-run`.
+then runs until the stop rule holds. Resume with `/tiny-anvil:resume-run`.
 
 ## Where the run writes
 
@@ -111,15 +111,15 @@ describes the product, kept current in the same commit as the change.
 
 ## Customising
 
-- **The stack and conventions:** [`house-stack.md`](../plugins/anvil/skills/running-autonomous-app-builds/house-stack.md). Keep the
+- **The stack and conventions:** [`house-stack.md`](../plugins/tiny-anvil/skills/running-autonomous-app-builds/house-stack.md). Keep the
   section names; other skills refer to them.
-- **Setup questions and their options:** [`setup-questions.md`](../plugins/anvil/skills/running-autonomous-app-builds/setup-questions.md)
+- **Setup questions and their options:** [`setup-questions.md`](../plugins/tiny-anvil/skills/running-autonomous-app-builds/setup-questions.md)
   (recommended option first).
 - **Deploy gates and the defaults without rules:** the Deploy Gates and Stopping sections of
-  [`running-autonomous-app-builds/SKILL.md`](../plugins/anvil/skills/running-autonomous-app-builds/SKILL.md).
-- **Workspace layout:** [`scaffold.sh`](../plugins/anvil/skills/running-autonomous-app-builds/scaffold.sh).
-- **Brief structure and the standard tests:** [`brief-template.md`](../plugins/anvil/skills/writing-app-briefs/brief-template.md).
+  [`running-autonomous-app-builds/SKILL.md`](../plugins/tiny-anvil/skills/running-autonomous-app-builds/SKILL.md).
+- **Workspace layout:** [`scaffold.sh`](../plugins/tiny-anvil/skills/running-autonomous-app-builds/scaffold.sh).
+- **Brief structure and the standard tests:** [`brief-template.md`](../plugins/tiny-anvil/skills/writing-app-briefs/brief-template.md).
 - **Increment, run and QA records, the review checklist:** the `.md` files in
-  [`iterating-with-verified-increments/`](../plugins/anvil/skills/iterating-with-verified-increments/).
+  [`iterating-with-verified-increments/`](../plugins/tiny-anvil/skills/iterating-with-verified-increments/).
 - **CI, image and deploy templates:** the `templates/` folders of the three delivery skills.
 - **A project's own rules always win:** its CLAUDE.md / AGENTS.md, `.claude/guidelines/` and `docs/features/`.

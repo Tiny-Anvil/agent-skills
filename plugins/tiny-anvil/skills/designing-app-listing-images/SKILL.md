@@ -24,7 +24,7 @@ Based on aso-shots by ceorkm (MIT, `NOTICE-aso-shots`). Game stores (Steam, itch
 
 | | On demand | In an app run |
 |---|---|---|
-| Started by | `/anvil:listing-images`, or a request | the finish pass of running-autonomous-app-builds |
+| Started by | `/tiny-anvil:listing-images`, or a request | the finish pass of running-autonomous-app-builds |
 | Scope | asked at intake | `docs/RULES.md` → Listing images (`web + PWA`, or `+ app stores`) |
 | Screens | the user's screenshots, a store URL (`scripts/fetch_listing.py`), or Playwright on a live URL's public pages | the final build's Playwright captures (dotnet-vue-test-harness), fictional seed data; tablet size captured extra when stores are in scope |
 | Storyboard, direction | the user approves the storyboard and picks one of three directions | the agent decides both, records them and the reason in `RUN.md`, shows the set at the next review |
