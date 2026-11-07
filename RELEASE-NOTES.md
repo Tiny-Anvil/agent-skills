@@ -20,6 +20,8 @@
 - godot-scenario-harness: `--write-movie` ignores `--resolution` and the 4.8 quality key is `video_quality`
   (measured); paths resolve against the project, not the shell; a recording that cannot be written now exits 6
   instead of 0; `--hide-group=a,b` keeps debug overlays out of captures.
+- CI and deploy templates pin third-party actions (docker, azure/login, pnpm, trivy) to a commit SHA with the
+  version as a comment; GitHub's own actions stay on a major. The CI/CD skill states the rule.
 - **Commands:** `/tiny-anvil:listing-images`, `/tiny-anvil:store-page`.
 
 ## 0.1.0

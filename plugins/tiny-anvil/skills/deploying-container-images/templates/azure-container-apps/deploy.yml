@@ -37,7 +37,7 @@ jobs:
           case "$VERSION" in v[0-9]*) ;; *) echo "::error::'$VERSION' is not vX.Y.Z"; exit 1;; esac
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
-      - uses: azure/login@v2
+      - uses: azure/login@7184910d9eb2b1c5e48f7073824a90609bb9b6d6 # v2.3.1
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
